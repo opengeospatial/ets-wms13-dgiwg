@@ -73,7 +73,7 @@ public final class ServiceMetadataUtils {
         if ( binding == null )
             return null;
 
-        String expr = "//wms:Request/wms:Operation[@name='%s']/wms:DCPType/wms:HTTP/wms:%s/wms:OnlineResource/@xlink:href";
+        String expr = "//wms:Request/wms:%s/wms:DCPType/wms:HTTP/wms:%s/wms:OnlineResource/@xlink:href";
         String xPathExpr = String.format( expr, opName, binding.getElementName() );
 
         String href = null;
@@ -119,7 +119,7 @@ public final class ServiceMetadataUtils {
     public static List<String> parseSupportedFormats( Document wmsCapabilities, String opName ) {
         ArrayList<String> supportedFormats = new ArrayList<>();
 
-        String expr = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:Operation[@name='%s']/wms:Format";
+        String expr = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:%s/wms:Format";
         String xPathExpr = String.format( expr, opName );
 
         try {

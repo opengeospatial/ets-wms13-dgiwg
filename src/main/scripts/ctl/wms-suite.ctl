@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ctl:package xmlns:ctl="http://www.occamlab.com/ctl" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:tns="http://www.opengis.net/cite/iso19142" xmlns:saxon="http://saxon.sf.net/" xmlns:interactive="https://lat-lon.de/wms-1.3.0/dgiwg/ctl/interactive.xml"
-  xmlns:tec="java:com.occamlab.te.TECore" xmlns:tng="java:de.latlon.ets.wms13.dgiwg.WmsDgiwgTestNGController">
+<ctl:package xmlns:ctl="http://www.occamlab.com/ctl" 
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:tns="http://www.opengis.net/cite/dgiwg/wms" 
+  xmlns:saxon="http://saxon.sf.net/" 
+  xmlns:interactive="https://lat-lon.de/wms-1.3.0/dgiwg/ctl/interactive.xml"
+  xmlns:tec="java:com.occamlab.te.TECore" 
+  xmlns:tng="java:de.latlon.ets.wms13.dgiwg.WmsDgiwgTestNGController">
 
   <ctl:function name="tns:run-ets-${ets-code}">
     <ctl:param name="testRunArgs">A Document node containing test run arguments (as XML properties).</ctl:param>

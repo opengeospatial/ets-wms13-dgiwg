@@ -12,6 +12,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.xpath.XPath;
@@ -49,6 +50,7 @@ import de.latlon.ets.wms13.core.domain.dimension.number.NumberRequestableDimensi
  */
 public final class ServiceMetadataUtils {
 
+    private static final Logger LOGR = Logger.getLogger(ServiceMetadataUtils.class.getName());
     private static final NamespaceBindings NS_BINDINGS = WmsNamespaces.withStandardBindings();
 
     private ServiceMetadataUtils() {
@@ -274,13 +276,13 @@ public final class ServiceMetadataUtils {
 
     private static RequestableDimension parseInterval( String units, String token )
                     throws ParseException {
+        LOGR.fine(String.format("Parsing temporal interval with units %s: %s", units, token));
         String[] minMaxRes = token.split( "/" );
-        if ( minMaxRes.length != 3 )
-            throw new IllegalArgumentException( "Cannot parse " + token + " as interval." );
         if ( "ISO8601".equals( units ) ) {
             DateTime min = parseDateTime( minMaxRes[0] );
             DateTime max = parseDateTime( minMaxRes[1] );
-            Period resolution = parseResolution( minMaxRes[2] );
+            String period = (minMaxRes.length > 2) ? minMaxRes[2] : "";
+            Period resolution = parseResolution( period );
             return new DateTimeDimensionInterval( min, max, resolution );
         }
         Number min = parseNumber( minMaxRes[0] );
@@ -290,7 +292,7 @@ public final class ServiceMetadataUtils {
     }
 
     private static Period parseResolution( String resolution ) {
-        if ( "0".equals( resolution ) )
+        if ( "0".equals( resolution ) || resolution.isEmpty())
             return null;
         return ISOPeriodFormat.standard().parsePeriod( resolution );
     }

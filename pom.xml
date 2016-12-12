@@ -38,6 +38,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
+          <archive>
+            <manifest>
+              <mainClass>de.latlon.ets.wms13.dgiwg.WmsDgiwgTestNGController</mainClass>
+            </manifest>
+          </archive>
           <descriptors>
             <descriptor>${basedir}/src/assembly/deps.xml</descriptor>
             <descriptor>${basedir}/src/assembly/ctl-scripts.xml</descriptor>

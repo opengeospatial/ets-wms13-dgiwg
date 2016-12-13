@@ -1,7 +1,9 @@
 # Test Suite for the DGIWG WMS Profile
 
-This test suite verifies that a Web Map Service (WMS) conforms to the requirements of the 
+This test suite verifies that a Web Map Service (WMS) component meets the requirements of the 
 DGIWG WMS application profile, [DGIWG-112](https://portal.dgiwg.org/files/?artifact_id=11514]).
+A conforming implementation must also satisfy the constraints of the **Queryable WMS** conformance 
+class as defined in the base [WMS 1.3 standard](http://www.opengeospatial.org/standards/wms).
 
 
 ## How to run the tests
@@ -53,7 +55,7 @@ One of the build artifacts is an "all-in-one" JAR file that includes the test su
 bundled together with all of its dependencies. This makes it very easy to execute the 
 test suite in a command shell like so:
 
-`java -jar ets-ets-dgiwg-wms-${version}-aio.jar  [test-run-props.xml]`
+`java -jar ets-dgiwg-wms-${version}-aio.jar  [test-run-props.xml]`
 
 
 ### OGC test harness

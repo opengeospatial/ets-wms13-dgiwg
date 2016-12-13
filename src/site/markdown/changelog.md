@@ -1,7 +1,9 @@
 
 # Release Notes
 
-## 0.3 (2016-12-DD)
+## 0.3 (2016-12-13)
+
+This release includes the following fixes and enhancements:
 
 * Fix [#3](https://github.com/opengeospatial/ets-dgiwg-wms13/issues/3): FileAlreadyExistsException thrown during test run
 * Fix [#2](https://github.com/opengeospatial/ets-dgiwg-wms13/issues/2): Add "all-in-one" (aio) assembly for command-line execution

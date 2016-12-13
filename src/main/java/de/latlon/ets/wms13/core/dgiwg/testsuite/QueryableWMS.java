@@ -120,10 +120,11 @@ public class QueryableWMS {
             try {
                 this.baseTestRunController = discoverTestRunController(DEFAULT_TES);
             } catch (RuntimeException e) {
+                LOGR.warning("WMS controller endpoint not available. " + e.getMessage());
                 throw new SkipException(e.getMessage());
             }
         }
-        LOGR.log(logLevel, this.baseTestRunController.toString());
+        LOGR.info("Using WMS controller endpoint at " + this.baseTestRunController.toString());
     }
 
     /**

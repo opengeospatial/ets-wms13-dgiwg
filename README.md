@@ -22,8 +22,9 @@ the default location of the file at `${user.home}/test-run-props.xml` will be us
 You can modify the default settings in the sample [test-run-props.xml](src/main/config/test-run-props.xml) 
 file, which is shown below. The value of the **wms** argument must be an absolute URI that 
 conforms to the 'http' or 'file' schemes. The **tes** argument specifies the location of 
-a service that provides a RESTful API for test execution; by default the OGC teamengine 
-installation (the 'beta' facility) will be used, but a local installation may be used instead.
+a service that provides a RESTful API for running the base WMS 1.3 test suite; by default 
+the OGC teamengine installation--the 'beta' facility--will be used, but an alternative 
+installation may be used instead (for example: http://localhost:8080/teamengine).
 
 **Test run arguments** 
 

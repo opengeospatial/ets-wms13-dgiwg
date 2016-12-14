@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.latlon</groupId>
   <artifactId>ets-dgiwg-wms</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.3</version>
   <name>ets-dgiwg-wms13</name>
   <description>Conformance test suite for the DGIWG WMS profile (DGIWG-112).</description>
   <url>https://github.com/opengeospatial/ets-dgiwg-wms13</url>
@@ -22,7 +22,7 @@
     <url>https://github.com/opengeospatial/ets-dgiwg-wms13</url>    
     <connection>scm:git:https://github.com/opengeospatial/ets-dgiwg-wms13.git</connection>    
     <developerConnection>scm:git:git@github.com:opengeospatial/ets-dgiwg-wms13.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>0.3</tag>
   </scm>
   <issueManagement>
     <system>GitHub Issue Tracker</system>

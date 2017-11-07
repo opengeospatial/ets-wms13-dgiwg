@@ -40,6 +40,8 @@ public class CrsMatcher {
 
     /**
      * For test cases only!
+     * 
+     * @return the opened stream to the BBOX_FILE
      */
     InputStream openStream() {
         return CrsMatcher.class.getResourceAsStream( BBOX_FILE );

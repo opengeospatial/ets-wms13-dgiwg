@@ -36,13 +36,15 @@ public class Prerequisites {
     }
 
     /**
-     * Confirms that the SUT is available and produces a service description in
-     * response to a basic GetCapabilities request. The document element is
-     * expected to have the following infoset properties:
+     * Confirms that the SUT is available and produces a service description in response to a basic GetCapabilities
+     * request. The document element is expected to have the following infoset properties:
      * <ul>
      * <li>[local name] = "WMS_Capabilities"</li>
      * <li>[namespace name] = "http://www.opengis.net/wms"</li>
      * </ul>
+     *
+     * @param testContext
+     *            the test run context, never <code>null</code>
      */
     @Test(dependsOnMethods = { "verifyServiceDescription" })
     public void serviceIsAvailable(ITestContext testContext) {

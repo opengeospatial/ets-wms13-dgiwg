@@ -5,9 +5,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.testng.ISuite;
@@ -26,9 +28,9 @@ public class BaseGetMapFixtureTest {
 
     @Test
     public void test()
-                    throws Exception {
+                            throws Exception {
         BaseGetMapFixture baseGetMapFixture = new BaseGetMapFixture();
-        Path reportDirectory = createTempDirectory( "BaseGetMapFixtureTest" );
+        Path reportDirectory = createReportDirectory();
         baseGetMapFixture.setResultDirectory( testContext( reportDirectory ) );
 
         ClientResponse rsp = createResponse();
@@ -54,13 +56,20 @@ public class BaseGetMapFixtureTest {
         return mockedResponse;
     }
 
-    private ITestContext testContext( Path reportDirectory ) {
-        Path testNgReportDir = reportDirectory.resolve( "step1" ).resolve( "step2" ).resolve( "step3" );
+    private ITestContext testContext( Path testNgReportDir )
+                            throws IOException {
         ISuite mockedSuite = mock( ISuite.class );
-        when( mockedSuite.getOutputDirectory() ).thenReturn( testNgReportDir.toFile().getAbsolutePath() );
+        String testNgReportDirFile = testNgReportDir.toFile().getAbsolutePath();
+        when( mockedSuite.getOutputDirectory() ).thenReturn( testNgReportDirFile );
         ITestContext mockedTestContext = mock( ITestContext.class );
         when( mockedTestContext.getSuite() ).thenReturn( mockedSuite );
+        when( mockedTestContext.getOutputDirectory() ).thenReturn( testNgReportDirFile );
         return mockedTestContext;
     }
 
+    private Path createReportDirectory()
+                            throws IOException {
+        Path tempDirectory = createTempDirectory( "BaseGetMapFixtureTest" );
+        return tempDirectory.resolve( UUID.randomUUID().toString() );
+    }
 }

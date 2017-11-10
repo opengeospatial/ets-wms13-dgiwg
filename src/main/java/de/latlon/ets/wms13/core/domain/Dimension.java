@@ -16,6 +16,8 @@ public class Dimension {
     /**
      * @param name
      *            of the dimension, never <code>null</code>
+     * @param dimensionValue
+     *            value of the dimension, never <code>null</code>
      */
     public Dimension( String name, DimensionUnitValue dimensionValue ) {
         if ( name == null )

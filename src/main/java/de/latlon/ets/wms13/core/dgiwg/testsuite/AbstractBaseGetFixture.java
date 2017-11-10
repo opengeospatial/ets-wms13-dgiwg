@@ -87,6 +87,9 @@ public abstract class AbstractBaseGetFixture {
      * Augments the test result with supplementary attributes in the event that a test method failed. The "request"
      * attribute contains a String representing the query component (GET method). The "response" attribute contains the
      * content of the response entity.
+     * 
+     * @param result
+     *            the result to add the attributes, never <code>null</code>
      */
     @AfterMethod
     public void addAttributesOnTestFailure( ITestResult result ) {
@@ -109,6 +112,9 @@ public abstract class AbstractBaseGetFixture {
     /**
      * Augments the test result with supplementary attributes in the event that a test method succeeded. The "request"
      * attribute contains a String representing the query component (GET method).
+     *
+     * @param result
+     *            the result to add the attributes, never <code>null</code>
      */
     @AfterMethod
     public void addAttributesOnTestSuccess( ITestResult result ) {

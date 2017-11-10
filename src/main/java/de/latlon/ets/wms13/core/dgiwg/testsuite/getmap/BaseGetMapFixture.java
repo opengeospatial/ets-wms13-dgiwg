@@ -129,7 +129,8 @@ public class BaseGetMapFixture extends AbstractBaseGetFixture {
      *         results.
      */
     String retrieveSessionDir(ITestContext testContext) {
-        File outputDir = new File(testContext.getOutputDirectory());
+        String outputDirectory = testContext.getOutputDirectory();
+        File outputDir = new File( outputDirectory );
         UUID testRunId;
         try {
             testRunId = UUID.fromString(outputDir.getName());
@@ -138,9 +139,8 @@ public class BaseGetMapFixture extends AbstractBaseGetFixture {
             outputDir = outputDir.getParentFile();
             testRunId = UUID.fromString(outputDir.getName());
         }
-        if (null == testRunId) {
-            throw new RuntimeException(
-                    "Unable to locate test run output directory: " + testContext.getOutputDirectory());
+        if ( null == testRunId ) {
+            throw new RuntimeException( "Unable to locate test run output directory: " + outputDirectory );
         }
         return outputDir.getPath();
     }

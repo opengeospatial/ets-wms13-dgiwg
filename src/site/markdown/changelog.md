@@ -1,6 +1,9 @@
 
 # Release Notes
 
+## 0.4 (2017-11-13)
+- Fix [#6](https://github.com/opengeospatial/ets-wms13-dgiwg/issues/6) - Add conformance class configuration
+
 ## 0.3 (2016-12-13)
 
 This release includes the following fixes and enhancements:

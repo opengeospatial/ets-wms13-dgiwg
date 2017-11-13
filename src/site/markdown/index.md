@@ -54,36 +54,64 @@ The general structure of the test suite is shown in Table 1.
       <td>de.latlon.ets.wms13.core.dgiwg.testsuite.Prerequisites</td>
     </tr>
     <tr>
+      <td>WMS Basic</td>
+      <td>Not tested yet</td>
+    </tr>
+    <tr>
       <td>Queryable WMS</td>
       <td>de.latlon.ets.wms13.core.dgiwg.testsuite.QueryableWMS</td>
     </tr>
     <tr>
-      <td>Basic service elements - 6.5</td>
-      <td>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.ConfiguredOutputFormatTest<br/>
-      de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesOutputFormatTest<br/>
-      de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.GetFeatureInfoOutputFormatTest<br/>
-      de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.interactive.GetCapabilitiesInEnglishLanguageTest<br/>
-      de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.interactive.GetFeatureInfoInEnglishLanguageTest<br/>
-      de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapOutputFormatTest<br/>
-      de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesLayerCrsTest<br/>
-      de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapLayerCrsTest<br/>
-      de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.interactive.GetFeatureInfoExceptionInEnglishLanguageTest<br/>
-      de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.interactive.GetMapExceptionInEnglishLanguageTest</td>
-    </tr>
-    <tr>
-      <td>GetCapabilities Operation - 6.6.1, 6.6.2</td>
-      <td>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.*<br/>
-      (except of classes tested by "Basic service elements - 6.5")</td>
-    </tr>
-    <tr>
-      <td>GetMap Operation - 6.6.3, 6.6.4</td>
-      <td>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.*<br/>
-      (except of classes tested by "Basic service elements - 6.5")</td>
-    </tr>
-    <tr>
-      <td>GetFeatureInfo Operation - 6.6.5, 6.6.6</td>
-      <td>de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.*<br/>
-      (except of classes tested by "Basic service elements - 6.5")</td>
+      <td>DGIWG WMS</td>
+      <td>
+        Basic service elements - 6.5
+        <ul>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.ConfiguredOutputFormatTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesOutputFormatTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.GetFeatureInfoOutputFormatTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.interactive.GetCapabilitiesInEnglishLanguageTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.interactive.GetFeatureInfoInEnglishLanguageTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapOutputFormatTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesLayerCrsTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapLayerCrsTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.interactive.GetFeatureInfoExceptionInEnglishLanguageTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.interactive.GetMapExceptionInEnglishLanguageTest</li>
+        </ul>
+        GetCapabilities Operation - 6.6.1, 6.6.2
+        <ul>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesRequestParameterTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesContentTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesAccessConstraintTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesAbstractTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesKeywordTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesStyleTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesLayerStyleTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesMaxExtendTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesLegendFormatTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesLegendUrlTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesLayerScaleDenominatorsTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesMinMaxScaleDenominatorsTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesFeatureListUrlTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesDataUrlTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities.GetCapabilitiesLayerAttributesTest</li>
+        </ul>
+        GetMap Operation - 6.6.3, 6.6.4
+        <ul>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapRequestParametersTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapTransparencyTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapInImageExceptionsTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapBlankExceptionsTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapMultiDimensionalDataTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getmap.GetMapDimensionsTest</li>
+        </ul>
+        GetFeatureInfo Operation - 6.6.5, 6.6.6
+        <ul>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.GetFeatureInfoFeatureCountTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.GetFeatureInfoExceptionsTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.GetFeatureInfoInfoFormatTest</li>
+          <li>de.latlon.ets.wms13.core.dgiwg.testsuite.getfeatureinfo.GetFeatureInfoUomTest</li>
+        </ul>
+      </td>
     </tr>
   </tbody>
 </table>

@@ -12,6 +12,12 @@
         <local-name>ets-${ets-code}-${version}</local-name>
         <title>DGIWG WMS 1.3 Conformance Test Suite</title>
         <description>Checks DGIWG WMS 1.3 implementations for conformance to DGIWG WMS 1.3 (DGIWG-112).</description>
+        <BasicConformanceClasses>
+          <conformanceClass>Preconditions</conformanceClass>
+          <conformanceClass>WMS Basic</conformanceClass>
+          <conformanceClass>WMS Queryable</conformanceClass>
+          <conformanceClass>DGIWG WMS</conformanceClass>
+        </BasicConformanceClasses>
       </suite>
       <revision>
         <name>${project.version}</name>

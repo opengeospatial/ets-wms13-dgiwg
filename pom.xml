@@ -168,7 +168,7 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>ets-dgiwg-core</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>0.4</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tika</groupId>

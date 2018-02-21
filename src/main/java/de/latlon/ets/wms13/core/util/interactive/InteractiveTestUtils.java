@@ -18,6 +18,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.w3c.dom.Document;
 
 import de.latlon.ets.core.util.URIUtils;
+import de.latlon.ets.wms13.core.TestRunArg;
 import de.latlon.ets.wms13.core.client.WmsKvpRequest;
 import de.latlon.ets.wms13.core.domain.DGIWGWMS;
 import de.latlon.ets.wms13.core.domain.LayerInfo;
@@ -42,7 +43,7 @@ public final class InteractiveTestUtils {
      *            the url of the WMS capabilities, never <code>null</code>
      * @return a GetFeatureInfo request, never <code>null</code>
      */
-    public static String retrieveGetFeatureInfoRequest( String wmsCapabilitiesUrl ) {
+	public static String retrieveGetFeatureInfoRequest( String wmsCapabilitiesUrl ) {
         Document wmsCapabilities = readCapabilities( wmsCapabilitiesUrl );
         URI getFeatureInfoEndpoint = getOperationEndpoint( wmsCapabilities, GET_FEATURE_INFO, GET );
         List<LayerInfo> layerInfos = parseLayerInfo( wmsCapabilities );
@@ -95,14 +96,46 @@ public final class InteractiveTestUtils {
     private static Document readCapabilities( String wmsCapabilitiesUrl ) {
         URI wmsURI = URI.create( wmsCapabilitiesUrl );
         Document doc = null;
-        try {
+        Exception exception = null;
+
+        try
+        {
             doc = URIUtils.resolveURIAsDocument( wmsURI );
             if ( !doc.getDocumentElement().getLocalName().equals( DGIWGWMS.WMS_CAPABILITIES ) ) {
                 throw new RuntimeException( "Did not receive WMS capabilities document: "
                                             + doc.getDocumentElement().getNodeName() );
             }
-        } catch ( Exception ex ) {
-            throw new RuntimeException( "Failed to parse resource located at " + wmsURI, ex );
+        }
+        catch ( Exception ex )
+        {
+        	// --- JB:  modified to account for when the GetCapabilities advertised as "http://" (port 80) but the server is actually on "https://" (port 443)
+        	exception = ex;
+
+        	// --- JB:  modified to at least check for "https://" if there is a server response from "http://"
+        	if ( ex.getMessage().contains("Server returned"))  //
+        	{
+        		try
+        		{
+        			String origRef = wmsCapabilitiesUrl;
+        			wmsCapabilitiesUrl = wmsCapabilitiesUrl.replace("http://", "https://"); // -- change the "http"
+        			wmsURI = URI.create( wmsCapabilitiesUrl );
+        			doc = URIUtils.resolveURIAsDocument( wmsURI );
+        			if ( !DGIWGWMS.WMS_CAPABILITIES.equals( doc.getDocumentElement().getLocalName() ) ) {
+                        throw new RuntimeException( "Did not receive WMS capabilities document: "
+                                                    + doc.getDocumentElement().getNodeName() );
+                    }
+        			exception = null;
+        		}
+        		catch ( Exception ex2 )
+        		{
+        			exception = ex; //ex2;
+        		}
+        	}
+        }
+
+        if ( exception != null )
+        {
+            throw new RuntimeException( "Failed to parse capabilities located at " + wmsURI, exception );
         }
         return doc;
     }

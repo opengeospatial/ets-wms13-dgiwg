@@ -66,16 +66,52 @@ public class SuiteFixtureListener implements ISuiteListener {
         }
         URI wmsURI = URI.create( wmsRef );
         Document doc = null;
+        Exception exception = null;
+
         try {
             doc = URIUtils.resolveURIAsDocument( wmsURI );
             if ( !DGIWGWMS.WMS_CAPABILITIES.equals( doc.getDocumentElement().getLocalName() ) ) {
                 throw new RuntimeException( "Did not receive WMS capabilities document: "
                                             + doc.getDocumentElement().getNodeName() );
             }
-        } catch ( Exception ex ) {
-            // push exception up through TestNG ISuiteListener interface
-            throw new RuntimeException( "Failed to parse resource located at " + wmsURI, ex );
         }
+        catch ( Exception ex )
+        {
+        	// --- JB:  modified to account for when the GetCapabilities advertised as "http://" (port 80) but the server is actually on "https://" (port 443)
+        	exception = ex;
+
+        	// --- JB:  modified to at least check for "https://" if there is a server response from "http://"
+        	if ( ex.getMessage().contains("Server returned"))  //
+        	{
+        		try
+        		{
+        			String origRef = wmsRef;
+        			wmsRef = wmsRef.replace("http://", "https://"); // -- change the "http"
+        			wmsURI = URI.create( wmsRef );
+        			doc = URIUtils.resolveURIAsDocument( wmsURI );
+        			if ( !DGIWGWMS.WMS_CAPABILITIES.equals( doc.getDocumentElement().getLocalName() ) ) {
+                        throw new RuntimeException( "Did not receive WMS capabilities document: "
+                                                    + doc.getDocumentElement().getNodeName() );
+                    }
+        			// --- if code gets here, assuming success
+        			//     change the parameters to account for the change if needed later
+        			params.replace( TestRunArg.WMS.toString() , origRef, wmsRef);
+        			suite.getXmlSuite().setParameters(params);
+        			exception = null;
+        		}
+        		catch ( Exception ex2 )
+        		{
+        			exception = ex; //ex2;
+        		}
+        	}
+        }
+
+        if ( exception != null )
+        {
+        	// push exception up through TestNG ISuiteListener interface
+            throw new RuntimeException( "Failed to parse resource located at " + wmsURI, exception );
+        }
+
         if ( null != doc ) {
             suite.setAttribute( SuiteAttribute.TEST_SUBJECT.getName(), doc );
             suite.setAttribute( SuiteAttribute.LAYER_INFO.getName(), parseLayerInfo( doc ) );

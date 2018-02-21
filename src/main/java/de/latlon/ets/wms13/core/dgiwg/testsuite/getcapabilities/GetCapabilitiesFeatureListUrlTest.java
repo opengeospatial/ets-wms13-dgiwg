@@ -10,6 +10,7 @@ import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
 import org.testng.ITestContext;
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
@@ -25,7 +26,7 @@ public class GetCapabilitiesFeatureListUrlTest extends AbstractBaseGetCapabiliti
 
     @DataProvider(name = "featureListUrls")
     public Object[][] parseFeatureListUrlNodes( ITestContext testContext )
-                    throws XPathFactoryConfigurationException, XPathExpressionException {
+                            throws XPathFactoryConfigurationException, XPathExpressionException {
         if ( this.wmsCapabilities == null )
             initBaseFixture( testContext );
         NodeList featureListUrlNodes = parseFeatureListUrlNodes( wmsCapabilities );
@@ -36,26 +37,33 @@ public class GetCapabilitiesFeatureListUrlTest extends AbstractBaseGetCapabiliti
                                                                      XPathConstants.STRING );
             featureListUrls[featureListUrlNodeIndex] = new Object[] { featureListUrl };
         }
+
+        if ( featureListUrlNodes.getLength() <= 0 ) {
+            throw new SkipException( "There are no FeatureListURLs; tests skipped" );
+        }
+
         return featureListUrls;
     }
 
     @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.2.3., S.17, Requirement 20", dataProvider = "featureListUrls")
-    public
-                    void wmsCapabilitiesFeatureListUrlIsResolvable( String featureListUrl )
-                                    throws XPathExpressionException, XPathFactoryConfigurationException {
+    public void wmsCapabilitiesFeatureListUrlIsResolvable( String featureListUrl ) {
+        while ( featureListUrl.contains( " " ) ) {
+            featureListUrl = featureListUrl.substring( 0, featureListUrl.indexOf( " " ) ) + "%20"
+                             + featureListUrl.substring( featureListUrl.indexOf( " " ) + 1 );
+        }
         assertUrl( featureListUrl );
         assertUriIsResolvable( featureListUrl );
     }
 
     private NodeList parseFeatureListUrlNodes( Document entity )
-                    throws XPathFactoryConfigurationException, XPathExpressionException {
+                            throws XPathFactoryConfigurationException, XPathExpressionException {
         String xPathFeatureListUrls = "//wms:Layer/wms:FeatureListURL/wms:OnlineResource";
         XPath xpath = createXPath();
         return (NodeList) xpath.evaluate( xPathFeatureListUrls, entity, XPathConstants.NODESET );
     }
 
     private XPath createXPath()
-                    throws XPathFactoryConfigurationException {
+                            throws XPathFactoryConfigurationException {
         XPathFactory factory = XPathFactory.newInstance( XPathConstants.DOM_OBJECT_MODEL );
         XPath xpath = factory.newXPath();
         xpath.setNamespaceContext( NS_BINDINGS );

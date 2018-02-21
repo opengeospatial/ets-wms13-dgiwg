@@ -8,11 +8,8 @@ import static org.testng.Assert.assertTrue;
 import java.net.URI;
 import java.util.List;
 
-import javax.xml.soap.SOAPException;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactoryConfigurationException;
-
 import org.testng.ITestContext;
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -31,20 +28,22 @@ import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
 public class GetFeatureInfoInfoFormatTest extends BaseGetFeatureInfoFixture {
 
     @DataProvider(name = "supportedFormats")
-    public Object[][] parseSupportedFormats( ITestContext testContext )
-                    throws XPathFactoryConfigurationException, XPathExpressionException {
+    public Object[][] parseSupportedFormats( ITestContext testContext ) {
         List<String> formats = ServiceMetadataUtils.parseSupportedFormats( wmsCapabilities, GET_FEATURE_INFO );
         Object[][] supportedFormats = new Object[formats.size()][];
         for ( int indexOfFormat = 0; indexOfFormat < supportedFormats.length; indexOfFormat++ ) {
             supportedFormats[indexOfFormat] = new Object[] { formats.get( indexOfFormat ) };
         }
+
+        if ( formats.size() <= 0 ) {
+            throw new SkipException( "There are no Formats; tests skipped" );
+        }
+
         return supportedFormats;
     }
 
     @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.6, S.22, Requirement 31", dataProvider = "supportedFormats")
-    public
-                    void wmsGetFeatureInfoInfoFormatWithAllValuesOfCapabilities( String supportedFormat )
-                                    throws SOAPException, XPathExpressionException, XPathFactoryConfigurationException {
+    public void wmsGetFeatureInfoInfoFormatWithAllValuesOfCapabilities( String supportedFormat ) {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_FEATURE_INFO,
                                                                   ProtocolBinding.GET );
         this.reqEntity.addKvp( INFO_FORMAT_PARAM, supportedFormat );

@@ -10,6 +10,7 @@ import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
 import org.testng.ITestContext;
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
@@ -25,7 +26,7 @@ public class GetCapabilitiesDataUrlTest extends AbstractBaseGetCapabilitiesFixtu
 
     @DataProvider(name = "dataUrls")
     public Object[][] parseDataUrls( ITestContext testContext )
-                    throws XPathFactoryConfigurationException, XPathExpressionException {
+                            throws XPathFactoryConfigurationException, XPathExpressionException {
         if ( this.wmsCapabilities == null )
             initBaseFixture( testContext );
         NodeList dataUrlNodes = parseDataUrlNodes( wmsCapabilities );
@@ -35,26 +36,33 @@ public class GetCapabilitiesDataUrlTest extends AbstractBaseGetCapabilitiesFixtu
             String dataUrl = (String) createXPath().evaluate( "//@xlink:href", dataUrlNode, XPathConstants.STRING );
             dataUrls[dataUrlNodeIndex] = new Object[] { dataUrl };
         }
+
+        if ( dataUrlNodes.getLength() <= 0 ) {
+            throw new SkipException( "There are no DataURLs; tests skipped" );
+        }
+
         return dataUrls;
     }
 
     @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.2.3., S.17, Requirement 21", dataProvider = "dataUrls")
-    public
-                    void wmsCapabilitiesDataUrlIsResolvable( String dataUrl )
-                                    throws XPathExpressionException, XPathFactoryConfigurationException {
+    public void wmsCapabilitiesDataUrlIsResolvable( String dataUrl ) {
+        while ( dataUrl.contains( " " ) ) {
+            dataUrl = dataUrl.substring( 0, dataUrl.indexOf( " " ) ) + "%20"
+                      + dataUrl.substring( dataUrl.indexOf( " " ) + 1 );
+        }
         assertUrl( dataUrl );
         assertUriIsResolvable( dataUrl );
     }
 
     private NodeList parseDataUrlNodes( Document entity )
-                    throws XPathFactoryConfigurationException, XPathExpressionException {
+                            throws XPathFactoryConfigurationException, XPathExpressionException {
         String xPath = "//wms:Layer/wms:DataURL/wms:OnlineResource";
         XPath xpath = createXPath();
         return (NodeList) xpath.evaluate( xPath, entity, XPathConstants.NODESET );
     }
 
     private XPath createXPath()
-                    throws XPathFactoryConfigurationException {
+                            throws XPathFactoryConfigurationException {
         XPathFactory factory = XPathFactory.newInstance( XPathConstants.DOM_OBJECT_MODEL );
         XPath xpath = factory.newXPath();
         xpath.setNamespaceContext( NS_BINDINGS );

@@ -16,7 +16,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.soap.SOAPException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
@@ -61,14 +60,18 @@ public class GetFeatureInfoUomTest extends BaseGetFeatureInfoFixture {
         for ( LayerInfo layerInfo : layerInfoWithDimension ) {
             resultingLayerInfo[layerInfoWithDimension.indexOf( layerInfo )] = new Object[] { layerInfo };
         }
+
+        if ( layerInfoWithDimension.size() <= 0 ) {
+            throw new SkipException( "There are no Layers with (Units of Measure) Dimensions; tests skipped" );
+        }
+
         return resultingLayerInfo;
 
     }
 
     @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.6, S.22, Requirement 32", dataProvider = "layerInfoWithDimension")
-    public
-                    void wmsGetFeatureInfoInfoUnitOfMeasureOfDimensionalData( LayerInfo layerInfoWithDimension )
-                                    throws SOAPException, XPathExpressionException, XPathFactoryConfigurationException {
+    public void wmsGetFeatureInfoInfoUnitOfMeasureOfDimensionalData( LayerInfo layerInfoWithDimension )
+                            throws XPathExpressionException, XPathFactoryConfigurationException {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_FEATURE_INFO, GET );
 
         BoundingBox bbox = findBoundingBox( layerInfoWithDimension );
@@ -89,7 +92,7 @@ public class GetFeatureInfoUomTest extends BaseGetFeatureInfoFixture {
     }
 
     private NodeList parseFeatureMembers( String layerName )
-                    throws XPathFactoryConfigurationException, XPathExpressionException {
+                            throws XPathFactoryConfigurationException, XPathExpressionException {
         NodeList featureMemberNodes = parseFeatureMemberNodes( this.rspEntity );
         if ( featureMemberNodes.getLength() == 0 )
             throw new SkipException( "Layer " + layerName
@@ -98,7 +101,7 @@ public class GetFeatureInfoUomTest extends BaseGetFeatureInfoFixture {
     }
 
     private void assertResponseContainsUnitOfMeasure( LayerInfo layerInfoWithDimension, NodeList featureMemberNodes )
-                    throws XPathExpressionException, XPathFactoryConfigurationException {
+                            throws XPathExpressionException, XPathFactoryConfigurationException {
         for ( Dimension dimension : layerInfoWithDimension.getDimensions() ) {
             String dimensionName = dimension.getName();
             for ( int memberIndex = 0; memberIndex < featureMemberNodes.getLength(); memberIndex++ ) {
@@ -112,7 +115,7 @@ public class GetFeatureInfoUomTest extends BaseGetFeatureInfoFixture {
     }
 
     private void assertUom( String dimensionName, Node featureMember )
-                    throws XPathExpressionException, XPathFactoryConfigurationException, AssertionError {
+                            throws XPathExpressionException, XPathFactoryConfigurationException, AssertionError {
         String expression = String.format( "//*[local-name() = '%s_uom']", dimensionName );
         String returnedUom = (String) createXPath().evaluate( expression, featureMember, STRING );
         if ( returnedUom == null || returnedUom.equals( "" ) ) {
@@ -124,7 +127,7 @@ public class GetFeatureInfoUomTest extends BaseGetFeatureInfoFixture {
     }
 
     private boolean containsDimension( String dimensionName, Node featureMember )
-                    throws XPathExpressionException, XPathFactoryConfigurationException {
+                            throws XPathExpressionException, XPathFactoryConfigurationException {
         String expression = String.format( "//*[local-name() = '%s']", dimensionName );
         return (boolean) createXPath().evaluate( expression, featureMember, BOOLEAN );
     }

@@ -32,7 +32,7 @@ public class BaseGetMapFixture extends AbstractBaseGetFixture {
 
     private final String MIME_FILENAME = "mime.types";
 
-    private final String SUBDIRECTORY = "GetMapTests";
+    static final String SUBDIRECTORY = "GetMapTests";
 
     private final String DISCRIMINATOR = DateTime.now().toString( "yyyyMMddHHmm" );
 

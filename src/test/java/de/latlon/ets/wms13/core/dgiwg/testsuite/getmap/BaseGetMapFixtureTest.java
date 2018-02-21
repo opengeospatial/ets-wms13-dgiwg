@@ -5,11 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.UUID;
 
 import org.junit.Test;
 import org.testng.ISuite;
@@ -27,10 +25,10 @@ public class BaseGetMapFixtureTest {
     private static final String TEST_NAME = "testName";
 
     @Test
-    public void test()
+    public void testStoreResponseImage()
                             throws Exception {
         BaseGetMapFixture baseGetMapFixture = new BaseGetMapFixture();
-        Path reportDirectory = createReportDirectory();
+        Path reportDirectory = createTempDirectory( "BaseGetMapFixtureTest" );
         baseGetMapFixture.setResultDirectory( testContext( reportDirectory ) );
 
         ClientResponse rsp = createResponse();
@@ -56,8 +54,7 @@ public class BaseGetMapFixtureTest {
         return mockedResponse;
     }
 
-    private ITestContext testContext( Path testNgReportDir )
-                            throws IOException {
+    private ITestContext testContext( Path testNgReportDir ) {
         ISuite mockedSuite = mock( ISuite.class );
         String testNgReportDirFile = testNgReportDir.toFile().getAbsolutePath();
         when( mockedSuite.getOutputDirectory() ).thenReturn( testNgReportDirFile );
@@ -67,9 +64,4 @@ public class BaseGetMapFixtureTest {
         return mockedTestContext;
     }
 
-    private Path createReportDirectory()
-                            throws IOException {
-        Path tempDirectory = createTempDirectory( "BaseGetMapFixtureTest" );
-        return tempDirectory.resolve( UUID.randomUUID().toString() );
-    }
 }

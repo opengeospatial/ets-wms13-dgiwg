@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 
-import org.joda.time.DateTime;
 import org.testng.ITestContext;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
@@ -34,8 +33,6 @@ public class BaseGetMapFixture extends AbstractBaseGetFixture {
 
     static final String SUBDIRECTORY = "GetMapTests";
 
-    private final String DISCRIMINATOR = DateTime.now().toString( "yyyyMMddHHmm" );
-
     private Path imageDirectory;
 
     /**
@@ -52,8 +49,7 @@ public class BaseGetMapFixture extends AbstractBaseGetFixture {
         TestSuiteLogger.log( Level.INFO, "Directory to store GetMap responses: " + outputDirectory );
         try {
             Path resultDir = Paths.get( outputDirectory );
-            imageDirectory = createDirectory( resultDir, SUBDIRECTORY + "_" + DISCRIMINATOR ); // --- create a unique
-                                                                                               // directory name
+            imageDirectory = createDirectory( resultDir, SUBDIRECTORY );
         } catch ( IOException e ) {
             TestSuiteLogger.log( Level.WARNING, "Could not create directory for GetMap response.", e );
         }
@@ -169,14 +165,14 @@ public class BaseGetMapFixture extends AbstractBaseGetFixture {
      */
     String retrieveSessionDir( ITestContext testContext ) {
         File outputDir = new File( testContext.getOutputDirectory() );
-
         // --- the following code crashes in Eclipse environment since no UUID is established with the
         // directory/subdirectory name
         /*
-         * --- UUID testRunId; try { testRunId = UUID.fromString(outputDir.getName()); } catch (IllegalArgumentException
-         * e) { // test suite name was appended to path outputDir = outputDir.getParentFile(); testRunId =
-         * UUID.fromString(outputDir.getName()); } if (null == testRunId) { throw new RuntimeException(
-         * "Unable to locate test run output directory: " + testContext.getOutputDirectory()); }
+         * UUID testRunId = null; try { testRunId = UUID.fromString( outputDir.getName() ); } catch (
+         * IllegalArgumentException e ) { // test suite name was appended to path outputDir = //
+         * outputDir.getParentFile(); testRunId = UUID.fromString( outputDir.getName() ); } if ( null == testRunId ) {
+         * throw new RuntimeException( "Unable to locate test run output directory: " + testContext.getOutputDirectory()
+         * ); }
          */
         return outputDir.getPath();
     }

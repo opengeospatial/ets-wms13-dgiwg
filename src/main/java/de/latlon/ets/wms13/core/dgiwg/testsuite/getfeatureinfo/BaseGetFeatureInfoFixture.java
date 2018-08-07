@@ -32,8 +32,13 @@ public class BaseGetFeatureInfoFixture extends AbstractBaseGetFixture {
     protected NodeList parseFeatureMemberNodes( Document entity )
                     throws XPathFactoryConfigurationException, XPathExpressionException {
         String xPathAbstract = "//gml:featureMember";
+        NodeList featureMemberList = null;
         XPath xpath = createXPath();
-        return (NodeList) xpath.evaluate( xPathAbstract, entity, XPathConstants.NODESET );
+        featureMemberList = (NodeList) xpath.evaluate( xPathAbstract, entity, XPathConstants.NODESET );
+        if(featureMemberList == null || featureMemberList.getLength() == 0){
+        	featureMemberList = (NodeList) xpath.evaluate( "esri:FeatureInfoResponse//esri:FIELDS", entity, XPathConstants.NODESET );
+        }
+        return featureMemberList;
     }
 
     protected XPath createXPath()

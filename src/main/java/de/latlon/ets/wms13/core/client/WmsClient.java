@@ -8,6 +8,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.transform.Source;
 
+import org.apache.tika.io.FilenameUtils;
 import org.w3c.dom.Document;
 
 import com.sun.jersey.api.client.Client;
@@ -117,7 +118,7 @@ public class WmsClient {
             response = resource.accept( DGIWGWMS.SOAP_XML ).type( DGIWGWMS.SOAP_XML ).post( ClientResponse.class,
                                                                                             payload );
             if ( LOGR.isLoggable( Level.FINE ) ) {
-                LOGR.log( Level.FINE, String.format( "SOAP Response: %s", response.toString() ) );
+                LOGR.log( Level.FINE, String.format( "SOAP Response: %s", FilenameUtils.normalize(response.toString()) ) );
             }
         } catch ( UniformInterfaceException | ClientHandlerException ex ) {
             LOGR.log( Level.SEVERE, "Failed to process SOAP request/response: " + resource.getURI(), ex );

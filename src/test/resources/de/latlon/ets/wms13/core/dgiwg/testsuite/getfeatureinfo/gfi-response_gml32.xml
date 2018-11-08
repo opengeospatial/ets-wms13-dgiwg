@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<FeatureCollection xmlns="http://www.opengis.net/wfs" xmlns:gml="http://www.opengis.net/gml/3.2">
+  <gml:boundedBy>
+    <gml:Envelope srsName="urn:ogc:def:crs:epsg::4326">
+      <gml:lowerCorner>51.589828 13.421406</gml:lowerCorner>
+      <gml:upperCorner>51.600844 13.439423</gml:upperCorner>
+    </gml:Envelope>
+  </gml:boundedBy>
+  <gml:featureMember>
+    <xplan:BP_Bereich xmlns:xplan="http://www.deegree.org/xplanung/1/0" gml:id="XPLAN_BP_BEREICH_1">
+      <xplan:gmlId>XPLAN_BP_BEREICH_1</xplan:gmlId>
+      <xplan:xpVersion>4.1</xplan:xpVersion>
+      <xplan:xpPlanType>BP_Plan</xplan:xpPlanType>
+      <xplan:xpPlanName>Abrundungssatzung_Test</xplan:xpPlanName>
+      <xplan:inkrafttretensDatum>1999-05-17</xplan:inkrafttretensDatum>
+      <xplan:nummer>0</xplan:nummer>
+      <xplan:name>Teilbereich 1</xplan:name>
+      <xplan:bedeutung>Sonstiges</xplan:bedeutung>
+      <xplan:bedeutungCode>9999</xplan:bedeutungCode>
+      <xplan:gehoertZuPlan>[XPLAN_BP_PLAN_1]</xplan:gehoertZuPlan>
+      <xplan:rasterBasis>[/getAttachment?featureID=XPLAN_XP_EXTERNEREFERENZPLAN_1&amp;filename=Abrundungssatzung_Test_ergb.tif]</xplan:rasterBasis>
+    </xplan:BP_Bereich>
+  </gml:featureMember>
+  <gml:featureMember>
+    <xplan:BP_Bereich xmlns:xplan="http://www.deegree.org/xplanung/1/0" gml:id="XPLAN_BP_BEREICH_2">
+      <xplan:gmlId>XPLAN_BP_BEREICH_2</xplan:gmlId>
+      <xplan:xpVersion>4.1</xplan:xpVersion>
+      <xplan:xpPlanType>BP_Plan</xplan:xpPlanType>
+      <xplan:xpPlanName>Abrundungssatzung_Test</xplan:xpPlanName>
+      <xplan:inkrafttretensDatum>1999-05-17</xplan:inkrafttretensDatum>
+      <xplan:nummer>0</xplan:nummer>
+      <xplan:name>Teilbereich 2</xplan:name>
+      <xplan:bedeutung>Sonstiges</xplan:bedeutung>
+      <xplan:bedeutungCode>9999</xplan:bedeutungCode>
+      <xplan:gehoertZuPlan>[XPLAN_BP_PLAN_2]</xplan:gehoertZuPlan>
+      <xplan:rasterBasis>[/getAttachment?featureID=XPLAN_XP_EXTERNEREFERENZPLAN_2&amp;filename=Abrundungssatzung_Test_ergb.tif]</xplan:rasterBasis>
+    </xplan:BP_Bereich>
+  </gml:featureMember>
+</FeatureCollection>

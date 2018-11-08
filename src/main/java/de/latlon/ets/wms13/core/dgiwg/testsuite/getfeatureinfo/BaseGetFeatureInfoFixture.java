@@ -14,6 +14,7 @@ import org.w3c.dom.NodeList;
 
 import de.latlon.ets.wms13.core.client.WmsKvpRequest;
 import de.latlon.ets.wms13.core.dgiwg.testsuite.AbstractBaseGetFixture;
+import de.latlon.ets.wms13.core.domain.WmsNamespaces;
 import de.latlon.ets.wms13.core.util.request.WmsRequestBuilder;
 
 /**
@@ -30,23 +31,22 @@ public class BaseGetFeatureInfoFixture extends AbstractBaseGetFixture {
     }
 
     protected NodeList parseFeatureMemberNodes( Document entity )
-                    throws XPathFactoryConfigurationException, XPathExpressionException {
-        String xPathAbstract = "//gml:featureMember";
-        NodeList featureMemberList = null;
+                            throws XPathFactoryConfigurationException, XPathExpressionException {
         XPath xpath = createXPath();
-        featureMemberList = (NodeList) xpath.evaluate( xPathAbstract, entity, XPathConstants.NODESET );
-        if(featureMemberList == null || featureMemberList.getLength() == 0){
-        	featureMemberList = (NodeList) xpath.evaluate( "esri:FeatureInfoResponse//esri:FIELDS", entity, XPathConstants.NODESET );
+        String namespaceURI = entity.getDocumentElement().getNamespaceURI();
+        if ( WmsNamespaces.ESRI.equals( namespaceURI ) ) {
+            return (NodeList) xpath.evaluate( "//esri:FeatureInfoResponse//esri:FIELDS", entity, XPathConstants.NODESET );
         }
-        return featureMemberList;
+
+        return (NodeList) xpath.evaluate( "//*[local-name() = 'featureMember']", entity, XPathConstants.NODESET );
     }
 
     protected XPath createXPath()
-                    throws XPathFactoryConfigurationException {
+                            throws XPathFactoryConfigurationException {
         XPathFactory factory = XPathFactory.newInstance( XPathConstants.DOM_OBJECT_MODEL );
         XPath xpath = factory.newXPath();
         xpath.setNamespaceContext( NS_BINDINGS );
         return xpath;
     }
-    
+
 }

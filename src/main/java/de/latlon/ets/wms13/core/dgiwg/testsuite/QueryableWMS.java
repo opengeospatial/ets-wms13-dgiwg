@@ -140,7 +140,7 @@ public class QueryableWMS {
      *             If an I/O error occurs while trying to read or write the test
      *             run results.
      */
-    @Test(description = "See DGIWG-112: Table 1, Requirement 1")
+    @Test(enabled=false, description = "See DGIWG-112: Table 1, Requirement 1")
     public void invokeBaseTestSuite() throws IOException {
         LOGR.log(logLevel, "Starting base test run at {0}", this.baseTestRunController);
         MultivaluedMap<String, String> args = new MultivaluedMapImpl();

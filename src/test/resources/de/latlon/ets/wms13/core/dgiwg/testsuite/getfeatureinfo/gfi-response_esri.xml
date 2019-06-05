@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureInfoResponse xmlns:esri_wms="http://www.esri.com/wms" xmlns="http://www.esri.com/wms">
+  <FIELDS OBJECTID="1" Shape="Polygon" Shape_Length="9.636801" Shape_Area="5.539155"></FIELDS>
+</FeatureInfoResponse>

@@ -24,6 +24,9 @@ public final class WmsNamespaces {
 
     /** GML */
     public static final String GML = "http://www.opengis.net/gml";
+    
+    /** ESRI */
+    public static final String ESRI = "http://www.esri.com/wms";
 
     /** ExtendedCapabilities Namespace used for SOAP binding */
     public static final String SOAPWMS = "http://schemas.deegree.org/extensions/services/wms/1.3.0";
@@ -45,6 +48,7 @@ public final class WmsNamespaces {
         nsBindings.addNamespaceBinding( XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi" );
         nsBindings.addNamespaceBinding( WmsNamespaces.GML, "gml" );
         nsBindings.addNamespaceBinding( WmsNamespaces.SOAPWMS, "soapwms" );
+        nsBindings.addNamespaceBinding( WmsNamespaces.ESRI, "esri" );
         return nsBindings;
     }
     

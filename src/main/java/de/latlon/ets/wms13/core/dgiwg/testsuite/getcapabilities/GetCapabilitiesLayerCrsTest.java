@@ -11,6 +11,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
+import org.apache.tika.io.FilenameUtils;
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -84,7 +85,7 @@ public class GetCapabilitiesLayerCrsTest extends AbstractBaseGetCapabilitiesFixt
     private void assertCrs( Node layerNode, String crs )
                     throws XPathExpressionException, XPathFactoryConfigurationException {
         String xPath = String.format( "ancestor-or-self::wms:Layer/wms:CRS[text() = '%s']", crs );
-        Node crsNode = (Node) createXPath().evaluate( xPath, layerNode, XPathConstants.NODE );
+        Node crsNode = (Node) createXPath().evaluate( FilenameUtils.normalize(xPath), layerNode, XPathConstants.NODE );
         assertNotNull( crsNode, "CRS " + crs + " is not supported." );
     }
 

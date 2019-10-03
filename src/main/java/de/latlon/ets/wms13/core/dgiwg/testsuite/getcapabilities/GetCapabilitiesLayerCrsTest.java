@@ -85,7 +85,7 @@ public class GetCapabilitiesLayerCrsTest extends AbstractBaseGetCapabilitiesFixt
     private void assertCrs( Node layerNode, String crs )
                     throws XPathExpressionException, XPathFactoryConfigurationException {
         String xPath = String.format( "ancestor-or-self::wms:Layer/wms:CRS[text() = '%s']", crs );
-        Node crsNode = (Node) createXPath().evaluate( FilenameUtils.normalize(xPath), layerNode, XPathConstants.NODE );
+        Node crsNode = (Node) createXPath().evaluate( xPath, layerNode, XPathConstants.NODE );
         assertNotNull( crsNode, "CRS " + crs + " is not supported." );
     }
 

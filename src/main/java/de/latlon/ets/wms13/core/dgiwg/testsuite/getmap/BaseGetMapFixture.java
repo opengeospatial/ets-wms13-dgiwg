@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import org.apache.tika.io.FilenameUtils;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
@@ -101,6 +102,7 @@ public class BaseGetMapFixture extends AbstractBaseGetFixture {
             String fileExtension = detectFileExtension(requestFormat);
 
             String fileName = testName + fileExtension;
+            fileName = FilenameUtils.normalize(fileName);
             Path imageFile = testClassDirectory.resolve(fileName);
             Files.copy(imageStream, imageFile);
         } catch (IOException | MimeTypeException e) {

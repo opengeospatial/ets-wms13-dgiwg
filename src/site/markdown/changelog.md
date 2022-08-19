@@ -1,6 +1,15 @@
 
 # Release Notes
 
+## 0.5 (2022-08-19)
+- [#22](https://github.com/opengeospatial/ets-wms13-dgiwg/pull/22) - Set ets-dgiwg-core to v0.5
+- [#11](https://github.com/opengeospatial/ets-wms13-dgiwg/issues/11) - Enhance test to count the features from the ESRI response format.
+- [#21](https://github.com/opengeospatial/ets-wms13-dgiwg/pull/21) - Bump tika-core from 1.10 to 1.22
+- [#19](https://github.com/opengeospatial/ets-wms13-dgiwg/issues/19) - Add template to get an XML/JSON response via rest endpoint
+- [#16](https://github.com/opengeospatial/ets-wms13-dgiwg/issues/16) - Cleanup dependencies
+- [#8](https://github.com/opengeospatial/ets-wms13-dgiwg/issues/8) - invoke Base Test Suite - java.lang.AssertionError: Unexpected status code. expected 200 but found 404
+- [#15](https://github.com/opengeospatial/ets-wms13-dgiwg/pull/15) - Fixed Fortify issue
+
 ## 0.4 (2017-11-13)
 - Fix [#6](https://github.com/opengeospatial/ets-wms13-dgiwg/issues/6) - Add conformance class configuration
 

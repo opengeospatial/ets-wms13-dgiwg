@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opengis.cite</groupId>
   <artifactId>ets-wms13-dgiwg</artifactId>
-  <version>0.5</version>
+  <version>0.6-SNAPSHOT</version>
   <name>DGIWG WMS 1.3 profile Conformance Test Suite</name>
   <description>Conformance test suite for the DGIWG WMS 1.3 profile (DGIWG-112).</description>
   <url>https://github.com/opengeospatial/ets-wms13-dgiwg</url>
@@ -30,7 +30,7 @@
     <url>https://github.com/opengeospatial/ets-wms13-dgiwg</url>
     <connection>scm:git:https://github.com/opengeospatial/ets-wms13-dgiwg.git</connection>
     <developerConnection>scm:git:git@github.com:opengeospatial/ets-wms13-dgiwg.git</developerConnection>
-    <tag>0.5</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>

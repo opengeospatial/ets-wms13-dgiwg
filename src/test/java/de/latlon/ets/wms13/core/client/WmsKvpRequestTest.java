@@ -6,8 +6,6 @@ import static org.junit.Assert.assertThat;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
-import de.latlon.ets.wms13.core.client.WmsKvpRequest;
-
 /**
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>
  */

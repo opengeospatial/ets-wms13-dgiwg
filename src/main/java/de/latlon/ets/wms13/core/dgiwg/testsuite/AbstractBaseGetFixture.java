@@ -19,8 +19,8 @@ import de.latlon.ets.core.util.XMLUtils;
 import de.latlon.ets.wms13.core.client.WmsClient;
 import de.latlon.ets.wms13.core.client.WmsKvpRequest;
 import de.latlon.ets.wms13.core.domain.LayerInfo;
-import de.latlon.ets.wms13.core.domain.WmsNamespaces;
 import de.latlon.ets.wms13.core.domain.SuiteAttribute;
+import de.latlon.ets.wms13.core.domain.WmsNamespaces;
 
 /**
  * A supporting base class that provides common configuration methods and data providers.

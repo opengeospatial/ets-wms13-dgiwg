@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
-import org.glassfish.jersey.client.ClientResponse;
 import org.junit.Test;
 import org.testng.ISuite;
 import org.testng.ITestContext;

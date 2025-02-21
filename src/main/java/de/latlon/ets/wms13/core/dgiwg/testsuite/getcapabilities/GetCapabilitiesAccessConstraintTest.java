@@ -17,8 +17,6 @@ import javax.xml.xpath.XPathFactoryConfigurationException;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 
-import jakarta.ws.rs.core.Response;
-
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
 import jakarta.ws.rs.core.Response;

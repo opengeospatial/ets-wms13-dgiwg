@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.latlon.ets.wms13.core.crs.CrsMatcher;
 import de.latlon.ets.wms13.core.domain.BoundingBox;
 
 /**

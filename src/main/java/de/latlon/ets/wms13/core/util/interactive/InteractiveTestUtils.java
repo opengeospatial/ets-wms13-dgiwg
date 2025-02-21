@@ -13,8 +13,6 @@ import static de.latlon.ets.wms13.core.util.request.WmsRequestBuilder.buildGetMa
 import java.net.URI;
 import java.util.List;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.w3c.dom.Document;
 
 import de.latlon.ets.core.util.URIUtils;
@@ -22,6 +20,7 @@ import de.latlon.ets.wms13.core.client.WmsKvpRequest;
 import de.latlon.ets.wms13.core.domain.DGIWGWMS;
 import de.latlon.ets.wms13.core.domain.LayerInfo;
 import de.latlon.ets.wms13.core.util.request.WmsRequestBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 /**
  * Contains methods useful for interactive ctl tests.

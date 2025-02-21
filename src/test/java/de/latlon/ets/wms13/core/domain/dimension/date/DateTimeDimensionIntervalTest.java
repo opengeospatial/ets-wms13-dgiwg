@@ -4,12 +4,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
 import org.junit.Test;
+
+import jakarta.xml.bind.DatatypeConverter;
 
 /**
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>

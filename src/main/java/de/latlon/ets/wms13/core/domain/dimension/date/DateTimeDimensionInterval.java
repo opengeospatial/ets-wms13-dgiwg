@@ -2,12 +2,11 @@ package de.latlon.ets.wms13.core.domain.dimension.date;
 
 import java.util.Random;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
 import de.latlon.ets.wms13.core.domain.dimension.RequestableDimension;
+import jakarta.xml.bind.DatatypeConverter;
 
 /**
  * {@link RequestableDimension} encapsulating a date interval.

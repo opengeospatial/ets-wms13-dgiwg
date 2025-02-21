@@ -21,21 +21,19 @@ import static org.testng.Assert.assertTrue;
 import java.net.URI;
 import java.util.List;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.ITestContext;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.internal.collections.Pair;
 
-import com.sun.jersey.api.client.ClientResponse;
-
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.BoundingBox;
 import de.latlon.ets.wms13.core.domain.Dimension;
 import de.latlon.ets.wms13.core.domain.LayerInfo;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the dimensions are supported.
@@ -77,7 +75,7 @@ public class GetMapDimensionsTest extends BaseGetMapFixture {
         this.reqEntity.addKvp( EXCEPTIONS_PARAM, "XML" );
         this.reqEntity.addKvp( DIMENSION_PARAM, dimensionParameterValue );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         storeResponseImage( rsp, "Requirement28", "dimensions", requestFormat );
 

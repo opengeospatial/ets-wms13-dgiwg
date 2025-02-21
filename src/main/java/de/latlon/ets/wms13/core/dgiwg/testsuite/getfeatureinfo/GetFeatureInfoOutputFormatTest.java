@@ -10,17 +10,15 @@ import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.sun.jersey.api.client.ClientResponse;
 
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the expected formats for GetFeatureInfo requests (text/xml and text/html) are supported.
@@ -55,7 +53,7 @@ public class GetFeatureInfoOutputFormatTest extends BaseGetFeatureInfoFixture {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_FEATURE_INFO,
                                                                   ProtocolBinding.GET );
         this.reqEntity.addKvp( INFO_FORMAT_PARAM, TEXT_XML );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
         assertContentType( rsp.getHeaders(), TEXT_XML );
@@ -68,7 +66,7 @@ public class GetFeatureInfoOutputFormatTest extends BaseGetFeatureInfoFixture {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_FEATURE_INFO,
                                                                   ProtocolBinding.GET );
         this.reqEntity.addKvp( INFO_FORMAT_PARAM, TEXT_HTML );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
         assertContentType( rsp.getHeaders(), TEXT_HTML );

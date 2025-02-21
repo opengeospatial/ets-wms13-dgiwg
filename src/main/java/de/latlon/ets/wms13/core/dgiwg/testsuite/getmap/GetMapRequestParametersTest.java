@@ -9,18 +9,16 @@ import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.sun.jersey.api.client.ClientResponse;
 
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the all GetMap request parameters are supported.
@@ -40,7 +38,7 @@ public class GetMapRequestParametersTest extends BaseGetMapFixture {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_MAP, ProtocolBinding.GET );
         String requestFormat = getSupportedFormat( wmsCapabilities, GET_MAP );
         this.reqEntity.addKvp( FORMAT_PARAM, requestFormat );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         storeResponseImage( rsp, "Requirement23", "simple", requestFormat );
 

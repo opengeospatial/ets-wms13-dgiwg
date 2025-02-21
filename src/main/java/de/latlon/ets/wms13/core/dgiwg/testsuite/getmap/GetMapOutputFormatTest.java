@@ -11,17 +11,15 @@ import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.sun.jersey.api.client.ClientResponse;
 
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the expected formats for GetMap requests (image/png, image/gif and image/jpeg) are supported.
@@ -62,7 +60,7 @@ public class GetMapOutputFormatTest extends BaseGetMapFixture {
                                     throws SOAPException {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_MAP, ProtocolBinding.GET );
         this.reqEntity.addKvp( FORMAT_PARAM, IMAGE_PNG );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
         assertContentType( rsp.getHeaders(), IMAGE_PNG );
@@ -74,7 +72,7 @@ public class GetMapOutputFormatTest extends BaseGetMapFixture {
                                     throws SOAPException {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_MAP, ProtocolBinding.GET );
         this.reqEntity.addKvp( FORMAT_PARAM, IMAGE_GIF );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
         assertContentType( rsp.getHeaders(), IMAGE_GIF );
@@ -86,7 +84,7 @@ public class GetMapOutputFormatTest extends BaseGetMapFixture {
                                     throws SOAPException {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_MAP, ProtocolBinding.GET );
         this.reqEntity.addKvp( FORMAT_PARAM, IMAGE_JPEG );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
         assertContentType( rsp.getHeaders(), IMAGE_JPEG );

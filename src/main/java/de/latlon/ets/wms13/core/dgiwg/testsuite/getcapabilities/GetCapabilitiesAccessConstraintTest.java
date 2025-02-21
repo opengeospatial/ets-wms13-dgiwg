@@ -17,10 +17,11 @@ import javax.xml.xpath.XPathFactoryConfigurationException;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 
-import com.sun.jersey.api.client.ClientResponse;
+import jakarta.ws.rs.core.Response;
 
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
 
 /**
  * Tests if the capabilities contains a valid value for AccessConstraint.
@@ -44,7 +45,7 @@ public class GetCapabilitiesAccessConstraintTest extends AbstractBaseGetCapabili
                                     throws XPathFactoryConfigurationException, XPathExpressionException {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         String accessConstraints = parseAccessConstraints( rsp );
         assertTrue( EXPECTED_ACCESS_CONSTRAINTS.contains( accessConstraints ),
@@ -52,13 +53,13 @@ public class GetCapabilitiesAccessConstraintTest extends AbstractBaseGetCapabili
                                     + accessConstraints );
     }
 
-    private String parseAccessConstraints( ClientResponse rsp )
+    private String parseAccessConstraints( Response rsp )
                     throws XPathFactoryConfigurationException, XPathExpressionException {
         String xPathAccessConstraints = "//wms:WMS_Capabilities/wms:Service/wms:AccessConstraints";
         XPathFactory factory = XPathFactory.newInstance( XPathConstants.DOM_OBJECT_MODEL );
         XPath xpath = factory.newXPath();
         xpath.setNamespaceContext( NS_BINDINGS );
-        return (String) xpath.evaluate( xPathAccessConstraints, rsp.getEntity( Document.class ), XPathConstants.STRING );
+        return (String) xpath.evaluate( xPathAccessConstraints, rsp.readEntity( Document.class ), XPathConstants.STRING );
     }
 
 }

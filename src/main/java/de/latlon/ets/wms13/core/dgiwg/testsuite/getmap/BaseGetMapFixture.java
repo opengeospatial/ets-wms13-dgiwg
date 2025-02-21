@@ -20,12 +20,11 @@ import org.testng.ITestContext;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 
-import com.sun.jersey.api.client.ClientResponse;
-
 import de.latlon.ets.core.util.TestSuiteLogger;
 import de.latlon.ets.wms13.core.client.WmsKvpRequest;
 import de.latlon.ets.wms13.core.dgiwg.testsuite.AbstractBaseGetFixture;
 import de.latlon.ets.wms13.core.util.request.WmsRequestBuilder;
+import jakarta.ws.rs.core.Response;
 
 /**
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>
@@ -85,7 +84,7 @@ public class BaseGetMapFixture extends AbstractBaseGetFixture {
      * @param requestFormat
      *            the mime type of the image, never <code>null</code>
      */
-    protected void storeResponseImage(ClientResponse rsp, String testGroup, String testName, String requestFormat) {
+    protected void storeResponseImage(Response rsp, String testGroup, String testName, String requestFormat) {
         if (imageDirectory == null) {
             TestSuiteLogger.log(Level.WARNING,
                     "Directory to store GetMap responses is not set. GetMap response is not written!");
@@ -94,11 +93,11 @@ public class BaseGetMapFixture extends AbstractBaseGetFixture {
         writeIntoFile(rsp, testGroup, testName, requestFormat);
     }
 
-    private void writeIntoFile(ClientResponse rsp, String testGroup, String testName, String requestFormat) {
+    private void writeIntoFile(Response rsp, String testGroup, String testName, String requestFormat) {
         try {
             Path testClassDirectory = createDirectory(imageDirectory, testGroup);
 
-            InputStream imageStream = rsp.getEntityInputStream();
+            InputStream imageStream = rsp.readEntity(InputStream.class);
             String fileExtension = detectFileExtension(requestFormat);
 
             String fileName = testName + fileExtension;

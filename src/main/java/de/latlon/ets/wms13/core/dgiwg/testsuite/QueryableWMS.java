@@ -1,6 +1,7 @@
 package de.latlon.ets.wms13.core.dgiwg.testsuite;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,31 +11,33 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.glassfish.jersey.client.ClientConfig;
 import org.testng.ITestContext;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import de.latlon.ets.core.util.XMLUtils;
 import de.latlon.ets.wms13.core.TestRunArg;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Invocation.Builder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.UriBuilder;
 import net.sf.saxon.s9api.Axis;
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
@@ -89,8 +92,8 @@ public class QueryableWMS {
      */
     @BeforeTest
     public void initTestFixture(ITestContext testContext) {
-        ClientConfig config = new DefaultClientConfig();
-        this.httpClient = Client.create(config);
+        ClientConfig config = new ClientConfig();
+        this.httpClient = ClientBuilder.newClient(config);
         this.wmsCapabilitiesRef = testContext.getSuite().getParameter(TestRunArg.WMS.toString());
     }
 
@@ -143,12 +146,20 @@ public class QueryableWMS {
     @Test(enabled=false, description = "See DGIWG-112: Table 1, Requirement 1")
     public void invokeBaseTestSuite() throws IOException {
         LOGR.log(logLevel, "Starting base test run at {0}", this.baseTestRunController);
-        MultivaluedMap<String, String> args = new MultivaluedMapImpl();
+        MultivaluedMap<String, String> args = new MultivaluedHashMap<>();
         args.putSingle(CAPABILITIES_URL, this.wmsCapabilitiesRef);
-        args.putSingle(QUERYABLE, QUERYABLE);
-        WebResource resource = this.httpClient.resource(this.baseTestRunController).queryParams(args);
-        ClientResponse rsp = resource.accept(MediaType.APPLICATION_XML).get(ClientResponse.class);
-        assertEquals(rsp.getStatus(), ClientResponse.Status.OK.getStatusCode(), "Unexpected status code.");
+        args.putSingle(QUERYABLE, QUERYABLE);        
+        UriBuilder uriBuilder = UriBuilder.fromUri(this.baseTestRunController);
+        if (null != args) {
+                for (Entry<String, List<String>> param : args.entrySet()) {
+                        uriBuilder.queryParam(param.getKey(), param.getValue());
+                }
+        }
+        URI uri = uriBuilder.build();
+        WebTarget target = this.httpClient.target(uri);
+        Builder reqBuilder = target.request().accept(MediaType.APPLICATION_XML);        
+        Response rsp = reqBuilder.buildGet().invoke();
+        assertEquals(rsp.getStatus(), Status.OK.getStatusCode(), "Unexpected status code.");
         LOGR.log(logLevel, "Test run was completed.");
         assertTrue(rsp.hasEntity(), "No entity in response from test run controller.");
         File results = saveEntityToFile(rsp);
@@ -178,9 +189,9 @@ public class QueryableWMS {
      * @throws IOException
      *             If an I/O error occurs.
      */
-    File saveEntityToFile(ClientResponse rsp) throws IOException {
+    File saveEntityToFile(Response rsp) throws IOException {
         File destFile = File.createTempFile("wmsResults-", ".xml");
-        try (InputStream in = rsp.getEntityInputStream(); OutputStream out = new FileOutputStream(destFile)) {
+        try (InputStream in = rsp.readEntity(InputStream.class); OutputStream out = new FileOutputStream(destFile)) {
             byte[] buffer = new byte[8 * 1024];
             int bytesRead;
             while ((bytesRead = in.read(buffer)) != -1) {
@@ -201,22 +212,23 @@ public class QueryableWMS {
      * {tes}/rest/suites/wms/{version}/run
      * </pre>
      * 
-     * @param tesEndpoint
+     * @param testEndpoint
      *            An 'http' URI that refers to the test execution service.
      * @return The URI for the standard WMS test run controller.
      */
-    URI discoverTestRunController(URI tesEndpoint) {
+    URI discoverTestRunController(URI testEndpoint) {
         // fetch list of available test suites from TES
-        URI targetURI = UriBuilder.fromUri(tesEndpoint).path("rest/suites/").build();
-        WebResource resource = this.httpClient.resource(targetURI);
-        ClientResponse rsp = resource.get(ClientResponse.class);
+        URI targetURI = UriBuilder.fromUri(testEndpoint).path("rest/suites/").build();
+        WebTarget target = this.httpClient.target(testEndpoint);
+        Builder reqBuilder = target.request();
+        Response rsp = reqBuilder.buildGet().invoke();
         if (!rsp.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
-            throw new RuntimeException(String.format("Test execution service not available at %s", tesEndpoint));
+            throw new RuntimeException(String.format("Test execution service not available at %s", testEndpoint));
         }
         // find WMS test run controller
         String xpath = "//html:li/html:a[starts-with(@id,'wms')]/@href";
         XdmValue xdmVal;
-        Source entity = new StreamSource(rsp.getEntityInputStream(), targetURI.toString());
+        Source entity = new StreamSource(rsp.readEntity(InputStream.class), targetURI.toString());
         try {
             xdmVal = XMLUtils.evaluateXPath2(entity, xpath, Collections.singletonMap(HTML_NS, "html"));
         } catch (SaxonApiException e) {

@@ -1,10 +1,9 @@
 package de.latlon.ets.wms13.core.domain.dimension.date;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.joda.time.DateTime;
 
 import de.latlon.ets.wms13.core.domain.dimension.RequestableDimension;
+import jakarta.xml.bind.DatatypeConverter;
 
 /**
  * {@link RequestableDimension} encapsulating a single {@link DateTime} value.

@@ -2,9 +2,9 @@ package de.latlon.ets.wms13.core.dgiwg.testsuite.getcapabilities;
 
 import static de.latlon.ets.core.assertion.ETSAssert.assertXPath;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.annotations.Test;
+
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the capabilities provides all mandatory and optional service metadata elements.

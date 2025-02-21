@@ -6,7 +6,6 @@ import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 
-import javax.xml.soap.SOAPException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
@@ -14,12 +13,12 @@ import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import com.sun.jersey.api.client.ClientResponse;
-
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests feature count functionality of GetFeatureInfo.
@@ -34,10 +33,10 @@ public class GetFeatureInfoFeatureCountTest extends BaseGetFeatureInfoFixture {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_FEATURE_INFO,
                                                                   ProtocolBinding.GET );
         this.reqEntity.addKvp( FEATURE_COUNT_PARAM, "1" );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 
-        Document entity = rsp.getEntity( Document.class );
+        Document entity = rsp.readEntity( Document.class );
         NodeList featureMemberNodes = parseFeatureMemberNodes( entity );
 
         assertTrue( featureMemberNodes.getLength() == 1,
@@ -50,10 +49,10 @@ public class GetFeatureInfoFeatureCountTest extends BaseGetFeatureInfoFixture {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_FEATURE_INFO,
                                                                   ProtocolBinding.GET );
         this.reqEntity.addKvp( FEATURE_COUNT_PARAM, "10" );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 
-        Document entity = rsp.getEntity( Document.class );
+        Document entity = rsp.readEntity( Document.class );
         NodeList featureMemberNodes = parseFeatureMemberNodes( entity );
 
         assertTrue( featureMemberNodes.getLength() >= 1,

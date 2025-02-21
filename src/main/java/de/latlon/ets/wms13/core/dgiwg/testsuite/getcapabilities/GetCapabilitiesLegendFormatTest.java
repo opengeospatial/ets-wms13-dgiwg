@@ -4,7 +4,6 @@ import static de.latlon.ets.core.assertion.ETSAssert.assertXPath;
 import static de.latlon.ets.wms13.core.util.ServiceMetadataUtils.parseRequestableLayerNodes;
 import static org.testng.Assert.assertNotNull;
 
-import javax.xml.soap.SOAPException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -19,6 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.latlon.ets.wms13.core.domain.SuiteAttribute;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests LegendURL/Format element of a capabilities document and evaluates the value of the Format element.

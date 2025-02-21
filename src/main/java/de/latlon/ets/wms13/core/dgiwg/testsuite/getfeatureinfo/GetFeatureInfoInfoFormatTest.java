@@ -8,7 +8,6 @@ import static org.testng.Assert.assertTrue;
 import java.net.URI;
 import java.util.List;
 
-import javax.xml.soap.SOAPException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
@@ -16,12 +15,12 @@ import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.sun.jersey.api.client.ClientResponse;
-
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests INFO_FORMAT parameter of GetFeatureInfo request.
@@ -48,7 +47,7 @@ public class GetFeatureInfoInfoFormatTest extends BaseGetFeatureInfoFixture {
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_FEATURE_INFO,
                                                                   ProtocolBinding.GET );
         this.reqEntity.addKvp( INFO_FORMAT_PARAM, supportedFormat );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
         assertContentType( rsp.getHeaders(), supportedFormat );

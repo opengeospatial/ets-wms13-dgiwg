@@ -7,17 +7,15 @@ import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
-
-import com.sun.jersey.api.client.ClientResponse;
 
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the capabilities document contains the expected formats:
@@ -54,10 +52,10 @@ public class ConfiguredOutputFormatTest extends AbstractBaseGetCapabilitiesFixtu
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 
-        Document entity = rsp.getEntity( Document.class );
+        Document entity = rsp.readEntity( Document.class );
         assertSimpleWMSCapabilities( entity );
 
         String xPathXml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetCapabilities/wms:Format/text() = 'text/xml'";
@@ -70,10 +68,10 @@ public class ConfiguredOutputFormatTest extends AbstractBaseGetCapabilitiesFixtu
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 
-        Document entity = rsp.getEntity( Document.class );
+        Document entity = rsp.readEntity( Document.class );
         assertSimpleWMSCapabilities( entity );
 
         String xPathXml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetCapabilities/wms:Format/text() = 'text/html'";
@@ -86,10 +84,10 @@ public class ConfiguredOutputFormatTest extends AbstractBaseGetCapabilitiesFixtu
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 
-        Document entity = rsp.getEntity( Document.class );
+        Document entity = rsp.readEntity( Document.class );
         assertSimpleWMSCapabilities( entity );
 
         String xPathXml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetFeatureInfo/wms:Format/text() = 'text/xml'";
@@ -102,10 +100,10 @@ public class ConfiguredOutputFormatTest extends AbstractBaseGetCapabilitiesFixtu
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 
-        Document entity = rsp.getEntity( Document.class );
+        Document entity = rsp.readEntity( Document.class );
         assertSimpleWMSCapabilities( entity );
 
         String xPathXml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetFeatureInfo/wms:Format/text() = 'text/html'";
@@ -118,10 +116,10 @@ public class ConfiguredOutputFormatTest extends AbstractBaseGetCapabilitiesFixtu
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 
-        Document entity = rsp.getEntity( Document.class );
+        Document entity = rsp.readEntity( Document.class );
         assertSimpleWMSCapabilities( entity );
 
         String xPathXml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetMap/wms:Format/text() = 'image/png'";
@@ -134,10 +132,10 @@ public class ConfiguredOutputFormatTest extends AbstractBaseGetCapabilitiesFixtu
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 
-        Document entity = rsp.getEntity( Document.class );
+        Document entity = rsp.readEntity( Document.class );
         assertSimpleWMSCapabilities( entity );
 
         String xPathXml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetMap/wms:Format/text() = 'image/gif'";
@@ -150,10 +148,10 @@ public class ConfiguredOutputFormatTest extends AbstractBaseGetCapabilitiesFixtu
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 
-        Document entity = rsp.getEntity( Document.class );
+        Document entity = rsp.readEntity( Document.class );
         assertSimpleWMSCapabilities( entity );
 
         String xPathXml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetMap/wms:Format/text() = 'image/jpeg'";

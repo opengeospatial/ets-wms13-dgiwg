@@ -23,13 +23,12 @@ import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.sun.jersey.api.client.ClientResponse;
-
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.crs.CrsMatcher;
 import de.latlon.ets.wms13.core.domain.BoundingBox;
 import de.latlon.ets.wms13.core.domain.LayerInfo;
+import jakarta.ws.rs.core.Response;
 
 /**
  * Tests if the Layer is requestable with the required CRS.
@@ -66,7 +65,7 @@ public class GetMapLayerCrsTest extends BaseGetMapFixture {
         this.reqEntity.addKvp( FORMAT_PARAM, REQUEST_FORMAT );
 
         URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         storeResponseImage( rsp, "Requirement6", "Mandatory_CRS_84_Supported_By_Layer_" + layerName, REQUEST_FORMAT );
 
@@ -88,7 +87,7 @@ public class GetMapLayerCrsTest extends BaseGetMapFixture {
         this.reqEntity.addKvp( FORMAT_PARAM, REQUEST_FORMAT );
 
         URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         storeResponseImage( rsp, "Requirement6", "Mandatory_EPSG_4326_Supported_By_Layer_" + layerName, REQUEST_FORMAT );
 
@@ -110,7 +109,7 @@ public class GetMapLayerCrsTest extends BaseGetMapFixture {
         this.reqEntity.addKvp( FORMAT_PARAM, REQUEST_FORMAT );
 
         URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         storeResponseImage( rsp, "Requirement6", "Mandatory_EPSG_3395_Supported_By_Layer_" + layerName, REQUEST_FORMAT );
 
@@ -134,7 +133,7 @@ public class GetMapLayerCrsTest extends BaseGetMapFixture {
             this.reqEntity.addKvp( FORMAT_PARAM, REQUEST_FORMAT );
 
             URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
-            ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+            Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
             storeResponseImage( rsp, "Requirement6", "Conditional_" + crs.replace( ":", "_" ) + "_Supported_By_Layer_"
                                                      + layerName, REQUEST_FORMAT );

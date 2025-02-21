@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.bind.DatatypeConverter;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -41,6 +40,7 @@ import de.latlon.ets.wms13.core.domain.dimension.date.DateTimeDimensionInterval;
 import de.latlon.ets.wms13.core.domain.dimension.date.DateTimeRequestableDimension;
 import de.latlon.ets.wms13.core.domain.dimension.number.NumberDimensionInterval;
 import de.latlon.ets.wms13.core.domain.dimension.number.NumberRequestableDimension;
+import jakarta.xml.bind.DatatypeConverter;
 
 /**
  * Provides various utility methods for accessing service metadata.

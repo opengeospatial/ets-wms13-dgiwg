@@ -11,11 +11,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+import org.glassfish.jersey.client.ClientResponse;
 import org.junit.Test;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 
-import com.sun.jersey.api.client.ClientResponse;
+import jakarta.ws.rs.core.Response;
 
 /**
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>
@@ -33,7 +34,7 @@ public class BaseGetMapFixtureTest {
         Path reportDirectory = createReportDirectory();
         baseGetMapFixture.setResultDirectory( testContext( reportDirectory ) );
 
-        ClientResponse rsp = createResponse();
+        Response rsp = createResponse();
         baseGetMapFixture.storeResponseImage( rsp, TEST_CLASS, TEST_NAME, "image/png" );
 
         Path imageDirectory = reportDirectory.resolve( BaseGetMapFixture.SUBDIRECTORY );
@@ -49,10 +50,10 @@ public class BaseGetMapFixtureTest {
         assertTrue( Files.isRegularFile( imageFile ) );
     }
 
-    private ClientResponse createResponse() {
-        ClientResponse mockedResponse = mock( ClientResponse.class );
+    private Response createResponse() {
+        Response mockedResponse = mock( Response.class );
         InputStream imageStream = BaseGetMapFixtureTest.class.getResourceAsStream( "latlon_bg4.png" );
-        when( mockedResponse.getEntityInputStream() ).thenReturn( imageStream );
+        when( mockedResponse.readEntity(InputStream.class) ).thenReturn( imageStream );
         return mockedResponse;
     }
 

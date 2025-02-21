@@ -11,18 +11,16 @@ import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
-
-import com.sun.jersey.api.client.ClientResponse;
 
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the expected formats for GetCapabilites requests (text/xml and text/html) are supported.
@@ -59,10 +57,10 @@ public class GetCapabilitiesOutputFormatTest extends AbstractBaseGetCapabilities
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
         this.reqEntity.addKvp( FORMAT_PARAM, TEXT_XML );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertSimpleWMSCapabilities( rsp.getEntity( Document.class ) );
+        assertSimpleWMSCapabilities( rsp.readEntity( Document.class ) );
 
         assertContentType( rsp.getHeaders(), TEXT_XML );
     }
@@ -74,7 +72,7 @@ public class GetCapabilitiesOutputFormatTest extends AbstractBaseGetCapabilities
         URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                   ProtocolBinding.GET );
         this.reqEntity.addKvp( FORMAT_PARAM, TEXT_HTML );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
 

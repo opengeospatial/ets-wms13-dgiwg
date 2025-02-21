@@ -13,18 +13,16 @@ import java.net.URI;
 import java.util.List;
 import java.util.Random;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
-
-import com.sun.jersey.api.client.ClientResponse;
 
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the request parameters for GetCapabilites requests are supported.
@@ -52,13 +50,13 @@ public class GetCapabilitiesRequestParameterTest extends AbstractBaseGetCapabili
 
             URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
                                                                       ProtocolBinding.GET );
-            ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+            Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
             assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
             assertContentType( rsp.getHeaders(), format );
 
             if ( TEXT_XML.equals( format ) ) {
-                Document reqEntity = rsp.getEntity( Document.class );
+                Document reqEntity = rsp.readEntity( Document.class );
                 assertSimpleWMSCapabilities( reqEntity );
                 assertVersion130( reqEntity );
             }

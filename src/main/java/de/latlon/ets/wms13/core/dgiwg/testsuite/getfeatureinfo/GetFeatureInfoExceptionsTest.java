@@ -10,18 +10,17 @@ import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 
-import javax.xml.soap.SOAPException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
 import org.testng.annotations.Test;
 
-import com.sun.jersey.api.client.ClientResponse;
-
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests exceptions of GetFeatureInfo request.
@@ -37,7 +36,7 @@ public class GetFeatureInfoExceptionsTest extends BaseGetFeatureInfoFixture {
                                                                   ProtocolBinding.GET );
         this.reqEntity.removeKvp( QUERY_LAYERS_PARAM );
         this.reqEntity.addKvp( EXCEPTIONS_PARAM, TEXT_XML );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
         assertContentType( rsp.getHeaders(), TEXT_XML );
@@ -50,7 +49,7 @@ public class GetFeatureInfoExceptionsTest extends BaseGetFeatureInfoFixture {
                                                                   ProtocolBinding.GET );
         this.reqEntity.removeKvp( QUERY_LAYERS_PARAM );
         this.reqEntity.addKvp( EXCEPTIONS_PARAM, TEXT_HTML );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
         assertContentType( rsp.getHeaders(), TEXT_HTML );

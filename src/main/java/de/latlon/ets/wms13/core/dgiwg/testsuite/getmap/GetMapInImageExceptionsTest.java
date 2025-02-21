@@ -12,18 +12,16 @@ import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.sun.jersey.api.client.ClientResponse;
 
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if INIMAGE Exceptions are supported.
@@ -52,7 +50,7 @@ public class GetMapInImageExceptionsTest extends BaseGetMapFixture {
         this.reqEntity.addKvp( BGCOLOR_PARAM, "0x000000" );
         this.reqEntity.addKvp( EXCEPTIONS_PARAM, "INIMAGE" );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
 
         storeResponseImage( rsp, "Requirement25", "inImageExceptionExpected_transparentBackground", requestFormat );
 

@@ -16,7 +16,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.soap.SOAPException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
@@ -28,8 +27,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.sun.jersey.api.client.ClientResponse;
-
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.BoundingBox;
@@ -38,6 +35,8 @@ import de.latlon.ets.wms13.core.domain.LayerInfo;
 import de.latlon.ets.wms13.core.uom.UomMatcher;
 import de.latlon.ets.wms13.core.uom.UomMatcherFromFile;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests units of measure for dimensional values returned in a GetFeatureInfo response.
@@ -80,8 +79,8 @@ public class GetFeatureInfoUomTest extends BaseGetFeatureInfoFixture {
         reqEntity.addKvp( BBOX_PARAM, bbox.getBboxAsString() );
         reqEntity.addKvp( QUERY_LAYERS_PARAM, layerName );
 
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
-        this.rspEntity = rsp.getEntity( Document.class );
+        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+        this.rspEntity = rsp.readEntity( Document.class );
         assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
         NodeList featureMemberNodes = parseFeatureMembers( layerName );
 

@@ -31,119 +31,113 @@ import jakarta.ws.rs.core.Response;
  */
 public class BaseGetMapFixture extends AbstractBaseGetFixture {
 
-    static final String SUBDIRECTORY = "GetMapTests";
+	static final String SUBDIRECTORY = "GetMapTests";
 
-    private Path imageDirectory;
+	private Path imageDirectory;
 
-    /**
-     * Builds a {@link WmsKvpRequest} representing a GetMap request.
-     */
-    @BeforeClass
-    public void buildGetMapRequest() {
-        this.reqEntity = WmsRequestBuilder.buildGetMapRequest(wmsCapabilities, layerInfo);
-    }
+	/**
+	 * Builds a {@link WmsKvpRequest} representing a GetMap request.
+	 */
+	@BeforeClass
+	public void buildGetMapRequest() {
+		this.reqEntity = WmsRequestBuilder.buildGetMapRequest(wmsCapabilities, layerInfo);
+	}
 
-    @BeforeClass
-    public void setResultDirectory(ITestContext testContext) {
-        String outputDirectory = retrieveSessionDir(testContext);
-        TestSuiteLogger.log(Level.INFO, "Directory to store GetMap responses: " + outputDirectory);
-        try {
-            Path resultDir = Paths.get(outputDirectory);
-            imageDirectory = createDirectory(resultDir, SUBDIRECTORY);
-        } catch (IOException e) {
-            TestSuiteLogger.log(Level.WARNING, "Could not create directory for GetMap response.", e);
-        }
-    }
+	@BeforeClass
+	public void setResultDirectory(ITestContext testContext) {
+		String outputDirectory = retrieveSessionDir(testContext);
+		TestSuiteLogger.log(Level.INFO, "Directory to store GetMap responses: " + outputDirectory);
+		try {
+			Path resultDir = Paths.get(outputDirectory);
+			imageDirectory = createDirectory(resultDir, SUBDIRECTORY);
+		}
+		catch (IOException e) {
+			TestSuiteLogger.log(Level.WARNING, "Could not create directory for GetMap response.", e);
+		}
+	}
 
-    /**
-     * If an image format supporting transparency is not supported by the WMS a
-     * {@link SkipException} is thrown.
-     * 
-     * @return image format supporting transparency, never <code>null</code>
-     */
-    protected String findRequiredImageFormatWithTransparencySupport() {
-        String imageFormat = getSupportedTransparentFormat(wmsCapabilities, GET_MAP);
-        if (imageFormat == null)
-            throw new SkipException("WMS does not support an image format supporting transparency.");
-        return imageFormat;
-    }
+	/**
+	 * If an image format supporting transparency is not supported by the WMS a
+	 * {@link SkipException} is thrown.
+	 * @return image format supporting transparency, never <code>null</code>
+	 */
+	protected String findRequiredImageFormatWithTransparencySupport() {
+		String imageFormat = getSupportedTransparentFormat(wmsCapabilities, GET_MAP);
+		if (imageFormat == null)
+			throw new SkipException("WMS does not support an image format supporting transparency.");
+		return imageFormat;
+	}
 
-    /**
-     * Stores the image in a the output directory of the testsuite:
-     * testSUiteOutputDirectory/testGroup/testName.extension
-     * 
-     * @param rsp
-     *            containing the image, rsp.getEntityInputStream() is used to
-     *            retrieve the content as stream, never <code>null</code>
-     * @param testGroup
-     *            name of the test group (will be the name of the directory to
-     *            create), never <code>null</code>
-     * @param testName
-     *            name of the test (will be the name of the file to create),
-     *            never <code>null</code>
-     * @param requestFormat
-     *            the mime type of the image, never <code>null</code>
-     */
-    protected void storeResponseImage(Response rsp, String testGroup, String testName, String requestFormat) {
-        if (imageDirectory == null) {
-            TestSuiteLogger.log(Level.WARNING,
-                    "Directory to store GetMap responses is not set. GetMap response is not written!");
-            return;
-        }
-        writeIntoFile(rsp, testGroup, testName, requestFormat);
-    }
+	/**
+	 * Stores the image in a the output directory of the testsuite:
+	 * testSUiteOutputDirectory/testGroup/testName.extension
+	 * @param rsp containing the image, rsp.getEntityInputStream() is used to retrieve the
+	 * content as stream, never <code>null</code>
+	 * @param testGroup name of the test group (will be the name of the directory to
+	 * create), never <code>null</code>
+	 * @param testName name of the test (will be the name of the file to create), never
+	 * <code>null</code>
+	 * @param requestFormat the mime type of the image, never <code>null</code>
+	 */
+	protected void storeResponseImage(Response rsp, String testGroup, String testName, String requestFormat) {
+		if (imageDirectory == null) {
+			TestSuiteLogger.log(Level.WARNING,
+					"Directory to store GetMap responses is not set. GetMap response is not written!");
+			return;
+		}
+		writeIntoFile(rsp, testGroup, testName, requestFormat);
+	}
 
-    private void writeIntoFile(Response rsp, String testGroup, String testName, String requestFormat) {
-        try {
-            Path testClassDirectory = createDirectory(imageDirectory, testGroup);
+	private void writeIntoFile(Response rsp, String testGroup, String testName, String requestFormat) {
+		try {
+			Path testClassDirectory = createDirectory(imageDirectory, testGroup);
 
-            InputStream imageStream = rsp.readEntity(InputStream.class);
-            String fileExtension = detectFileExtension(requestFormat);
+			InputStream imageStream = rsp.readEntity(InputStream.class);
+			String fileExtension = detectFileExtension(requestFormat);
 
-            String fileName = testName + fileExtension;
-            fileName = FilenameUtils.normalize(fileName);
-            Path imageFile = testClassDirectory.resolve(fileName);
-            Files.copy(imageStream, imageFile);
-        } catch (IOException | MimeTypeException e) {
-            TestSuiteLogger.log(Level.WARNING, "Writing the GetMap response into file failed.", e);
-        }
-    }
+			String fileName = testName + fileExtension;
+			fileName = FilenameUtils.normalize(fileName);
+			Path imageFile = testClassDirectory.resolve(fileName);
+			Files.copy(imageStream, imageFile);
+		}
+		catch (IOException | MimeTypeException e) {
+			TestSuiteLogger.log(Level.WARNING, "Writing the GetMap response into file failed.", e);
+		}
+	}
 
-    private String detectFileExtension(String requestFormat) throws MimeTypeException {
-        MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
-        MimeType mimeType = allTypes.forName(requestFormat);
-        return mimeType.getExtension();
-    }
+	private String detectFileExtension(String requestFormat) throws MimeTypeException {
+		MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
+		MimeType mimeType = allTypes.forName(requestFormat);
+		return mimeType.getExtension();
+	}
 
-    private Path createDirectory(Path parent, String child) throws IOException {
-        Path testClassDirectory = parent.resolve(child);
-        Files.createDirectories(testClassDirectory);
-        return testClassDirectory;
-    }
+	private Path createDirectory(Path parent, String child) throws IOException {
+		Path testClassDirectory = parent.resolve(child);
+		Files.createDirectories(testClassDirectory);
+		return testClassDirectory;
+	}
 
-    /**
-     * Gets the location of the output directory from the test run context.
-     * 
-     * @param testContext
-     *            Information about a test run.
-     * @return A String that identifies the directory containing test run
-     *         results.
-     */
-    String retrieveSessionDir(ITestContext testContext) {
-        String outputDirectory = testContext.getOutputDirectory();
-        File outputDir = new File( outputDirectory );
-        UUID testRunId;
-        try {
-            testRunId = UUID.fromString(outputDir.getName());
-        } catch (IllegalArgumentException e) {
-            // test suite name was appended to path
-            outputDir = outputDir.getParentFile();
-            testRunId = UUID.fromString(outputDir.getName());
-        }
-        if ( null == testRunId ) {
-            throw new RuntimeException( "Unable to locate test run output directory: " + outputDirectory );
-        }
-        return outputDir.getPath();
-    }
+	/**
+	 * Gets the location of the output directory from the test run context.
+	 * @param testContext Information about a test run.
+	 * @return A String that identifies the directory containing test run results.
+	 */
+	String retrieveSessionDir(ITestContext testContext) {
+		String outputDirectory = testContext.getOutputDirectory();
+		File outputDir = new File(outputDirectory);
+		UUID testRunId;
+		try {
+			testRunId = UUID.fromString(outputDir.getName());
+		}
+		catch (IllegalArgumentException e) {
+			// test suite name was appended to path
+			outputDir = outputDir.getParentFile();
+			testRunId = UUID.fromString(outputDir.getName());
+		}
+		if (null == testRunId) {
+			throw new RuntimeException("Unable to locate test run output directory: " + outputDirectory);
+		}
+		return outputDir.getPath();
+	}
 
 }

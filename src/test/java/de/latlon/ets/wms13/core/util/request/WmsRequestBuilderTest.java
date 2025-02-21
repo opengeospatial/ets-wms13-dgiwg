@@ -22,21 +22,19 @@ import org.xml.sax.SAXException;
  */
 public class WmsRequestBuilderTest {
 
-    @Test
-    public void testGetSupportedTransparentFormat()
-                    throws Exception {
-        String format = WmsRequestBuilder.getSupportedTransparentFormat( wmsCapabilities(), GET_MAP );
+	@Test
+	public void testGetSupportedTransparentFormat() throws Exception {
+		String format = WmsRequestBuilder.getSupportedTransparentFormat(wmsCapabilities(), GET_MAP);
 
-        assertThat( format, is( IMAGE_PNG ) );
-    }
+		assertThat(format, is(IMAGE_PNG));
+	}
 
-    private Document wmsCapabilities()
-                    throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware( true );
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        InputStream wmsCapabilities = WmsRequestBuilderTest.class.getResourceAsStream( "../../capabilities_wms130.xml" );
-        return builder.parse( new InputSource( wmsCapabilities ) );
-    }
+	private Document wmsCapabilities() throws ParserConfigurationException, SAXException, IOException {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true);
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		InputStream wmsCapabilities = WmsRequestBuilderTest.class.getResourceAsStream("../../capabilities_wms130.xml");
+		return builder.parse(new InputSource(wmsCapabilities));
+	}
 
 }

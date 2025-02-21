@@ -22,31 +22,30 @@ import de.latlon.ets.wms13.core.util.request.WmsRequestBuilder;
  */
 public class BaseGetFeatureInfoFixture extends AbstractBaseGetFixture {
 
-    /**
-     * Builds a {@link WmsKvpRequest} representing a GetMap request.
-     */
-    @BeforeClass
-    public void buildGetMapRequest() {
-        this.reqEntity = WmsRequestBuilder.buildGetFeatureInfoRequest( wmsCapabilities, layerInfo, TEXT_XML );
-    }
+	/**
+	 * Builds a {@link WmsKvpRequest} representing a GetMap request.
+	 */
+	@BeforeClass
+	public void buildGetMapRequest() {
+		this.reqEntity = WmsRequestBuilder.buildGetFeatureInfoRequest(wmsCapabilities, layerInfo, TEXT_XML);
+	}
 
-    protected NodeList parseFeatureMemberNodes( Document entity )
-                            throws XPathFactoryConfigurationException, XPathExpressionException {
-        XPath xpath = createXPath();
-        String namespaceURI = entity.getDocumentElement().getNamespaceURI();
-        if ( WmsNamespaces.ESRI.equals( namespaceURI ) ) {
-            return (NodeList) xpath.evaluate( "//esri:FeatureInfoResponse//esri:FIELDS", entity, XPathConstants.NODESET );
-        }
+	protected NodeList parseFeatureMemberNodes(Document entity)
+			throws XPathFactoryConfigurationException, XPathExpressionException {
+		XPath xpath = createXPath();
+		String namespaceURI = entity.getDocumentElement().getNamespaceURI();
+		if (WmsNamespaces.ESRI.equals(namespaceURI)) {
+			return (NodeList) xpath.evaluate("//esri:FeatureInfoResponse//esri:FIELDS", entity, XPathConstants.NODESET);
+		}
 
-        return (NodeList) xpath.evaluate( "//*[local-name() = 'featureMember']", entity, XPathConstants.NODESET );
-    }
+		return (NodeList) xpath.evaluate("//*[local-name() = 'featureMember']", entity, XPathConstants.NODESET);
+	}
 
-    protected XPath createXPath()
-                            throws XPathFactoryConfigurationException {
-        XPathFactory factory = XPathFactory.newInstance( XPathConstants.DOM_OBJECT_MODEL );
-        XPath xpath = factory.newXPath();
-        xpath.setNamespaceContext( NS_BINDINGS );
-        return xpath;
-    }
+	protected XPath createXPath() throws XPathFactoryConfigurationException {
+		XPathFactory factory = XPathFactory.newInstance(XPathConstants.DOM_OBJECT_MODEL);
+		XPath xpath = factory.newXPath();
+		xpath.setNamespaceContext(NS_BINDINGS);
+		return xpath;
+	}
 
 }

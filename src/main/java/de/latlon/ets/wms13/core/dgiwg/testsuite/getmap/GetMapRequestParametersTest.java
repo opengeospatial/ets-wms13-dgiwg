@@ -22,29 +22,28 @@ import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the all GetMap request parameters are supported.
- * 
+ *
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>
  */
 public class GetMapRequestParametersTest extends BaseGetMapFixture {
 
-    @BeforeMethod
-    public void clearRequest() {
-        this.reqEntity.removeKvp( FORMAT_PARAM );
-    }
+	@BeforeMethod
+	public void clearRequest() {
+		this.reqEntity.removeKvp(FORMAT_PARAM);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.3., S.19, Requirement 23")
-    public void wmsGetMapRequestParametersSupported( ITestContext testContext )
-                    throws SOAPException {
-        URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_MAP, ProtocolBinding.GET );
-        String requestFormat = getSupportedFormat( wmsCapabilities, GET_MAP );
-        this.reqEntity.addKvp( FORMAT_PARAM, requestFormat );
-        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.3., S.19, Requirement 23")
+	public void wmsGetMapRequestParametersSupported(ITestContext testContext) throws SOAPException {
+		URI endpoint = ServiceMetadataUtils.getOperationEndpoint(this.wmsCapabilities, GET_MAP, ProtocolBinding.GET);
+		String requestFormat = getSupportedFormat(wmsCapabilities, GET_MAP);
+		this.reqEntity.addKvp(FORMAT_PARAM, requestFormat);
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        storeResponseImage( rsp, "Requirement23", "simple", requestFormat );
+		storeResponseImage(rsp, "Requirement23", "simple", requestFormat);
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertStatusCode( rsp.getStatus(), 200 );
-        assertContentType( rsp.getHeaders(), requestFormat );
-    }
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+		assertStatusCode(rsp.getStatus(), 200);
+		assertContentType(rsp.getHeaders(), requestFormat);
+	}
 
 }

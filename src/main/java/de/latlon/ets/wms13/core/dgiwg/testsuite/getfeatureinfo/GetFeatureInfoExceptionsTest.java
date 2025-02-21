@@ -24,35 +24,35 @@ import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests exceptions of GetFeatureInfo request.
- * 
+ *
  * @author <a href="mailto:stenger@lat-lon.de">Dirk Stenger</a>
  */
 public class GetFeatureInfoExceptionsTest extends BaseGetFeatureInfoFixture {
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.5.8, S.22, Requirement 30")
-    public void wmsGetFeatureInfoExceptionsWithValueOfXml()
-                    throws SOAPException, XPathExpressionException, XPathFactoryConfigurationException {
-        URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_FEATURE_INFO,
-                                                                  ProtocolBinding.GET );
-        this.reqEntity.removeKvp( QUERY_LAYERS_PARAM );
-        this.reqEntity.addKvp( EXCEPTIONS_PARAM, TEXT_XML );
-        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.5.8, S.22, Requirement 30")
+	public void wmsGetFeatureInfoExceptionsWithValueOfXml()
+			throws SOAPException, XPathExpressionException, XPathFactoryConfigurationException {
+		URI endpoint = ServiceMetadataUtils.getOperationEndpoint(this.wmsCapabilities, GET_FEATURE_INFO,
+				ProtocolBinding.GET);
+		this.reqEntity.removeKvp(QUERY_LAYERS_PARAM);
+		this.reqEntity.addKvp(EXCEPTIONS_PARAM, TEXT_XML);
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertContentType( rsp.getHeaders(), TEXT_XML );
-    }
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+		assertContentType(rsp.getHeaders(), TEXT_XML);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.5.8, S.22, Requirement 30")
-    public void wmsGetFeatureInfoExceptionsWithValueOfHtml()
-                    throws SOAPException, XPathExpressionException, XPathFactoryConfigurationException {
-        URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_FEATURE_INFO,
-                                                                  ProtocolBinding.GET );
-        this.reqEntity.removeKvp( QUERY_LAYERS_PARAM );
-        this.reqEntity.addKvp( EXCEPTIONS_PARAM, TEXT_HTML );
-        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.5.8, S.22, Requirement 30")
+	public void wmsGetFeatureInfoExceptionsWithValueOfHtml()
+			throws SOAPException, XPathExpressionException, XPathFactoryConfigurationException {
+		URI endpoint = ServiceMetadataUtils.getOperationEndpoint(this.wmsCapabilities, GET_FEATURE_INFO,
+				ProtocolBinding.GET);
+		this.reqEntity.removeKvp(QUERY_LAYERS_PARAM);
+		this.reqEntity.addKvp(EXCEPTIONS_PARAM, TEXT_HTML);
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertContentType( rsp.getHeaders(), TEXT_HTML );
-    }
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+		assertContentType(rsp.getHeaders(), TEXT_HTML);
+	}
 
 }

@@ -23,108 +23,106 @@ import de.latlon.ets.wms13.core.domain.WmsNamespaces;
 import de.latlon.ets.wms13.core.domain.SuiteAttribute;
 
 /**
- * A supporting base class that provides common configuration methods and data providers. The configuration methods are
- * invoked before any that may be defined in a subclass.
- * 
+ * A supporting base class that provides common configuration methods and data providers.
+ * The configuration methods are invoked before any that may be defined in a subclass.
+ *
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>
  */
 public abstract class AbstractBaseGetFixture {
 
-    /** Maximum length of response (string) added as result attribute. */
-    private static final int MAX_RSP_ATTR_LENGTH = 1536;
-    
-    protected static final NamespaceBindings NS_BINDINGS = WmsNamespaces.withStandardBindings();
+	/** Maximum length of response (string) added as result attribute. */
+	private static final int MAX_RSP_ATTR_LENGTH = 1536;
 
-    protected Document wmsCapabilities;
+	protected static final NamespaceBindings NS_BINDINGS = WmsNamespaces.withStandardBindings();
 
-    protected WmsClient wmsClient;
+	protected Document wmsCapabilities;
 
-    protected DocumentBuilder docBuilder;
+	protected WmsClient wmsClient;
 
-    protected WmsKvpRequest reqEntity;
+	protected DocumentBuilder docBuilder;
 
-    protected Document rspEntity;
+	protected WmsKvpRequest reqEntity;
 
-    protected List<LayerInfo> layerInfo;
+	protected Document rspEntity;
 
-    public void setWmsClient( WmsClient wmsClient ) {
-        this.wmsClient = wmsClient;
-    }
+	protected List<LayerInfo> layerInfo;
 
-    /**
-     * Sets up the base fixture. The service metadata document is obtained from the ISuite context. The suite attribute
-     * {@link SuiteAttribute#TEST_SUBJECT testSubject} should yield a DOM Document node having
-     * {http://www.opengis.net/wms}WMS_Capabilities as the document element.
-     * 
-     * @param testContext
-     *            the test (set) context, never <code>null</code>
-     */
-    @SuppressWarnings("unchecked")
-    @BeforeClass(alwaysRun = true)
-    public void initBaseFixture( ITestContext testContext ) {
-        if ( this.wmsCapabilities != null )
-            return;
-        this.wmsCapabilities = (Document) testContext.getSuite().getAttribute( SuiteAttribute.TEST_SUBJECT.getName() );
-        this.wmsClient = new WmsClient( this.wmsCapabilities );
-        this.layerInfo = (List<LayerInfo>) testContext.getSuite().getAttribute( SuiteAttribute.LAYER_INFO.getName() );
-    }
+	public void setWmsClient(WmsClient wmsClient) {
+		this.wmsClient = wmsClient;
+	}
 
-    /**
-     * Initializes the (namespace-aware) DOM parser.
-     */
-    @BeforeClass
-    public void initParser() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware( true );
-        try {
-            this.docBuilder = factory.newDocumentBuilder();
-        } catch ( ParserConfigurationException e ) {
-            TestSuiteLogger.log( Level.WARNING, "Failed to create DOM parser", e );
-        }
-    }
+	/**
+	 * Sets up the base fixture. The service metadata document is obtained from the ISuite
+	 * context. The suite attribute {@link SuiteAttribute#TEST_SUBJECT testSubject} should
+	 * yield a DOM Document node having {http://www.opengis.net/wms}WMS_Capabilities as
+	 * the document element.
+	 * @param testContext the test (set) context, never <code>null</code>
+	 */
+	@SuppressWarnings("unchecked")
+	@BeforeClass(alwaysRun = true)
+	public void initBaseFixture(ITestContext testContext) {
+		if (this.wmsCapabilities != null)
+			return;
+		this.wmsCapabilities = (Document) testContext.getSuite().getAttribute(SuiteAttribute.TEST_SUBJECT.getName());
+		this.wmsClient = new WmsClient(this.wmsCapabilities);
+		this.layerInfo = (List<LayerInfo>) testContext.getSuite().getAttribute(SuiteAttribute.LAYER_INFO.getName());
+	}
 
-    /**
-     * Augments the test result with supplementary attributes in the event that a test method failed. The "request"
-     * attribute contains a String representing the query component (GET method). The "response" attribute contains the
-     * content of the response entity.
-     * 
-     * @param result
-     *            the result to add the attributes, never <code>null</code>
-     */
-    @AfterMethod
-    public void addAttributesOnTestFailure( ITestResult result ) {
-        if ( result.getStatus() != ITestResult.FAILURE ) {
-            return;
-        }
-        if ( this.reqEntity != null ) {
-            String request = this.reqEntity.asQueryString();
-            result.setAttribute( "request", request );
-        }
-        if ( this.rspEntity != null ) {
-            StringBuilder response = new StringBuilder( XMLUtils.writeNodeToString( this.rspEntity ) );
-            if ( response.length() > MAX_RSP_ATTR_LENGTH ) {
-                response.delete( MAX_RSP_ATTR_LENGTH, response.length() );
-            }
-            result.setAttribute( "response", response.toString() );
-        }
-    }
+	/**
+	 * Initializes the (namespace-aware) DOM parser.
+	 */
+	@BeforeClass
+	public void initParser() {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true);
+		try {
+			this.docBuilder = factory.newDocumentBuilder();
+		}
+		catch (ParserConfigurationException e) {
+			TestSuiteLogger.log(Level.WARNING, "Failed to create DOM parser", e);
+		}
+	}
 
-    /**
-     * Augments the test result with supplementary attributes in the event that a test method succeeded. The "request"
-     * attribute contains a String representing the query component (GET method).
-     *
-     * @param result
-     *            the result to add the attributes, never <code>null</code>
-     */
-    @AfterMethod
-    public void addAttributesOnTestSuccess( ITestResult result ) {
-        if ( result.getStatus() != ITestResult.SUCCESS ) {
-            return;
-        }
-        if ( this.reqEntity != null ) {
-            String request = this.reqEntity.asQueryString();
-            result.setAttribute( "request", request );
-        }
-    }
+	/**
+	 * Augments the test result with supplementary attributes in the event that a test
+	 * method failed. The "request" attribute contains a String representing the query
+	 * component (GET method). The "response" attribute contains the content of the
+	 * response entity.
+	 * @param result the result to add the attributes, never <code>null</code>
+	 */
+	@AfterMethod
+	public void addAttributesOnTestFailure(ITestResult result) {
+		if (result.getStatus() != ITestResult.FAILURE) {
+			return;
+		}
+		if (this.reqEntity != null) {
+			String request = this.reqEntity.asQueryString();
+			result.setAttribute("request", request);
+		}
+		if (this.rspEntity != null) {
+			StringBuilder response = new StringBuilder(XMLUtils.writeNodeToString(this.rspEntity));
+			if (response.length() > MAX_RSP_ATTR_LENGTH) {
+				response.delete(MAX_RSP_ATTR_LENGTH, response.length());
+			}
+			result.setAttribute("response", response.toString());
+		}
+	}
+
+	/**
+	 * Augments the test result with supplementary attributes in the event that a test
+	 * method succeeded. The "request" attribute contains a String representing the query
+	 * component (GET method).
+	 * @param result the result to add the attributes, never <code>null</code>
+	 */
+	@AfterMethod
+	public void addAttributesOnTestSuccess(ITestResult result) {
+		if (result.getStatus() != ITestResult.SUCCESS) {
+			return;
+		}
+		if (this.reqEntity != null) {
+			String request = this.reqEntity.asQueryString();
+			result.setAttribute("request", request);
+		}
+	}
 
 }

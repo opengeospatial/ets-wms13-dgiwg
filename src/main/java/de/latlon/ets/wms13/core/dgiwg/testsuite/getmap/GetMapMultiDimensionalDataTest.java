@@ -37,106 +37,104 @@ import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the multi-dimensional data are supported.
- * 
+ *
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>
  */
 public class GetMapMultiDimensionalDataTest extends BaseGetMapFixture {
 
-    @BeforeMethod
-    public void clearRequest() {
-        this.reqEntity.removeKvp( FORMAT_PARAM );
-        this.reqEntity.removeKvp( LAYERS_PARAM );
-        this.reqEntity.removeKvp( CRS_PARAM );
-        this.reqEntity.removeKvp( BBOX_PARAM );
-        this.reqEntity.removeKvp( FORMAT_PARAM );
-        this.reqEntity.removeKvp( TRANSPARENT_PARAM );
-        this.reqEntity.removeKvp( BGCOLOR_PARAM );
-        this.reqEntity.removeKvp( EXCEPTIONS_PARAM );
-        this.reqEntity.removeKvp( ELEVATION_PARAM );
-    }
+	@BeforeMethod
+	public void clearRequest() {
+		this.reqEntity.removeKvp(FORMAT_PARAM);
+		this.reqEntity.removeKvp(LAYERS_PARAM);
+		this.reqEntity.removeKvp(CRS_PARAM);
+		this.reqEntity.removeKvp(BBOX_PARAM);
+		this.reqEntity.removeKvp(FORMAT_PARAM);
+		this.reqEntity.removeKvp(TRANSPARENT_PARAM);
+		this.reqEntity.removeKvp(BGCOLOR_PARAM);
+		this.reqEntity.removeKvp(EXCEPTIONS_PARAM);
+		this.reqEntity.removeKvp(ELEVATION_PARAM);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.3., S.20, Requirement 27")
-    public void wmsGetMapMultiDimensionalDataSupported_Elevation( ITestContext testContext )
-                    throws SOAPException {
-        URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.3., S.20, Requirement 27")
+	public void wmsGetMapMultiDimensionalDataSupported_Elevation(ITestContext testContext) throws SOAPException {
+		URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
 
-        String requestFormat = getSupportedTransparentFormat( wmsCapabilities, GET_MAP );
-        Pair<LayerInfo, Dimension> layerInfoAndDimension = findLayerinfoWithElevationDimension( layerInfo );
-        LayerInfo layerInfoWithElevationDimension = layerInfoAndDimension.first();
+		String requestFormat = getSupportedTransparentFormat(wmsCapabilities, GET_MAP);
+		Pair<LayerInfo, Dimension> layerInfoAndDimension = findLayerinfoWithElevationDimension(layerInfo);
+		LayerInfo layerInfoWithElevationDimension = layerInfoAndDimension.first();
 
-        BoundingBox bbox = findBoundingBox( layerInfoWithElevationDimension );
-        String elevationParameterValue = findParameterValue( layerInfoAndDimension );
+		BoundingBox bbox = findBoundingBox(layerInfoWithElevationDimension);
+		String elevationParameterValue = findParameterValue(layerInfoAndDimension);
 
-        this.reqEntity.addKvp( FORMAT_PARAM, requestFormat );
-        this.reqEntity.addKvp( LAYERS_PARAM, layerInfoWithElevationDimension.getLayerName() );
-        this.reqEntity.addKvp( CRS_PARAM, bbox.getCrs() );
-        this.reqEntity.addKvp( BBOX_PARAM, bbox.getBboxAsString() );
-        this.reqEntity.addKvp( TRANSPARENT_PARAM, "TRUE" );
-        this.reqEntity.addKvp( BGCOLOR_PARAM, "0xFFFFFF" );
-        this.reqEntity.addKvp( EXCEPTIONS_PARAM, "XML" );
-        this.reqEntity.addKvp( ELEVATION_PARAM, elevationParameterValue );
+		this.reqEntity.addKvp(FORMAT_PARAM, requestFormat);
+		this.reqEntity.addKvp(LAYERS_PARAM, layerInfoWithElevationDimension.getLayerName());
+		this.reqEntity.addKvp(CRS_PARAM, bbox.getCrs());
+		this.reqEntity.addKvp(BBOX_PARAM, bbox.getBboxAsString());
+		this.reqEntity.addKvp(TRANSPARENT_PARAM, "TRUE");
+		this.reqEntity.addKvp(BGCOLOR_PARAM, "0xFFFFFF");
+		this.reqEntity.addKvp(EXCEPTIONS_PARAM, "XML");
+		this.reqEntity.addKvp(ELEVATION_PARAM, elevationParameterValue);
 
-        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        storeResponseImage( rsp, "Requirement27", "multiDimensionalData_elevation", requestFormat );
+		storeResponseImage(rsp, "Requirement27", "multiDimensionalData_elevation", requestFormat);
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertStatusCode( rsp.getStatus(), 200 );
-        assertContentType( rsp.getHeaders(), requestFormat );
-    }
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+		assertStatusCode(rsp.getStatus(), 200);
+		assertContentType(rsp.getHeaders(), requestFormat);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.3., S.20, Requirement 27")
-    public void wmsGetMapMultiDimensionalDataSupported_Time( ITestContext testContext )
-                    throws SOAPException {
-        URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.3., S.20, Requirement 27")
+	public void wmsGetMapMultiDimensionalDataSupported_Time(ITestContext testContext) throws SOAPException {
+		URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
 
-        String requestFormat = getSupportedTransparentFormat( wmsCapabilities, GET_MAP );
-        Pair<LayerInfo, Dimension> layerInfoAndDimension = findLayerinfoWithTimeDimension( layerInfo );
-        LayerInfo layerInfoWithTimeDimension = layerInfoAndDimension.first();
+		String requestFormat = getSupportedTransparentFormat(wmsCapabilities, GET_MAP);
+		Pair<LayerInfo, Dimension> layerInfoAndDimension = findLayerinfoWithTimeDimension(layerInfo);
+		LayerInfo layerInfoWithTimeDimension = layerInfoAndDimension.first();
 
-        BoundingBox bbox = findBoundingBox( layerInfoWithTimeDimension );
-        String timeParameterValue = findParameterValue( layerInfoAndDimension );
+		BoundingBox bbox = findBoundingBox(layerInfoWithTimeDimension);
+		String timeParameterValue = findParameterValue(layerInfoAndDimension);
 
-        this.reqEntity.addKvp( FORMAT_PARAM, requestFormat );
-        this.reqEntity.addKvp( LAYERS_PARAM, layerInfoWithTimeDimension.getLayerName() );
-        this.reqEntity.addKvp( CRS_PARAM, bbox.getCrs() );
-        this.reqEntity.addKvp( BBOX_PARAM, bbox.getBboxAsString() );
-        this.reqEntity.addKvp( TRANSPARENT_PARAM, "TRUE" );
-        this.reqEntity.addKvp( BGCOLOR_PARAM, "0xFFFFFF" );
-        this.reqEntity.addKvp( EXCEPTIONS_PARAM, "XML" );
-        this.reqEntity.addKvp( TIME_PARAM, timeParameterValue );
+		this.reqEntity.addKvp(FORMAT_PARAM, requestFormat);
+		this.reqEntity.addKvp(LAYERS_PARAM, layerInfoWithTimeDimension.getLayerName());
+		this.reqEntity.addKvp(CRS_PARAM, bbox.getCrs());
+		this.reqEntity.addKvp(BBOX_PARAM, bbox.getBboxAsString());
+		this.reqEntity.addKvp(TRANSPARENT_PARAM, "TRUE");
+		this.reqEntity.addKvp(BGCOLOR_PARAM, "0xFFFFFF");
+		this.reqEntity.addKvp(EXCEPTIONS_PARAM, "XML");
+		this.reqEntity.addKvp(TIME_PARAM, timeParameterValue);
 
-        Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        storeResponseImage( rsp, "Requirement27", "multiDimensionalData_time", requestFormat );
+		storeResponseImage(rsp, "Requirement27", "multiDimensionalData_time", requestFormat);
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertStatusCode( rsp.getStatus(), 200 );
-        assertContentType( rsp.getHeaders(), requestFormat );
-    }
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+		assertStatusCode(rsp.getStatus(), 200);
+		assertContentType(rsp.getHeaders(), requestFormat);
+	}
 
-    private Pair<LayerInfo, Dimension> findLayerinfoWithElevationDimension( List<LayerInfo> layerInfos ) {
-        return findLayerWithDimension( layerInfos, "elevation" );
-    }
+	private Pair<LayerInfo, Dimension> findLayerinfoWithElevationDimension(List<LayerInfo> layerInfos) {
+		return findLayerWithDimension(layerInfos, "elevation");
+	}
 
-    private Pair<LayerInfo, Dimension> findLayerinfoWithTimeDimension( List<LayerInfo> layerInfos ) {
-        return findLayerWithDimension( layerInfos, "time" );
-    }
+	private Pair<LayerInfo, Dimension> findLayerinfoWithTimeDimension(List<LayerInfo> layerInfos) {
+		return findLayerWithDimension(layerInfos, "time");
+	}
 
-    private Pair<LayerInfo, Dimension> findLayerWithDimension( List<LayerInfo> layerInfos, String dimensionName ) {
-        for ( LayerInfo layerInfo : layerInfos ) {
-            List<Dimension> dimensions = layerInfo.getDimensions();
-            for ( Dimension dimension : dimensions ) {
-                if ( dimensionName.equalsIgnoreCase( dimension.getName() ) )
-                    return new Pair<LayerInfo, Dimension>( layerInfo, dimension );
-            }
-        }
-        throw new SkipException( "No layer with dimension '" + dimensionName + "' supported!" );
+	private Pair<LayerInfo, Dimension> findLayerWithDimension(List<LayerInfo> layerInfos, String dimensionName) {
+		for (LayerInfo layerInfo : layerInfos) {
+			List<Dimension> dimensions = layerInfo.getDimensions();
+			for (Dimension dimension : dimensions) {
+				if (dimensionName.equalsIgnoreCase(dimension.getName()))
+					return new Pair<LayerInfo, Dimension>(layerInfo, dimension);
+			}
+		}
+		throw new SkipException("No layer with dimension '" + dimensionName + "' supported!");
 
-    }
+	}
 
-    private String findParameterValue( Pair<LayerInfo, Dimension> layerInfoAndDimension ) {
-        return layerInfoAndDimension.second().getDimensionValue().getRequestableDimension().retrieveRequestableValue();
-    }
+	private String findParameterValue(Pair<LayerInfo, Dimension> layerInfoAndDimension) {
+		return layerInfoAndDimension.second().getDimensionValue().getRequestableDimension().retrieveRequestableValue();
+	}
 
 }

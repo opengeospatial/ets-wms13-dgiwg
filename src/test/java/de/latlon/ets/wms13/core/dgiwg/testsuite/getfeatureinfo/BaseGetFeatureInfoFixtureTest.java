@@ -21,42 +21,39 @@ import org.xml.sax.SAXException;
  */
 public class BaseGetFeatureInfoFixtureTest {
 
-    @Test
-    public void testParseFeatureMemberNodes_esri()
-                            throws Exception {
-        BaseGetFeatureInfoFixture baseGetFeatureInfoFixture = new BaseGetFeatureInfoFixture();
-        Document documentEntity = parseDocument( "gfi-response_esri.xml" );
-        NodeList nodeList = baseGetFeatureInfoFixture.parseFeatureMemberNodes( documentEntity );
+	@Test
+	public void testParseFeatureMemberNodes_esri() throws Exception {
+		BaseGetFeatureInfoFixture baseGetFeatureInfoFixture = new BaseGetFeatureInfoFixture();
+		Document documentEntity = parseDocument("gfi-response_esri.xml");
+		NodeList nodeList = baseGetFeatureInfoFixture.parseFeatureMemberNodes(documentEntity);
 
-        assertThat( nodeList.getLength(), is( 1 ) );
-    }
+		assertThat(nodeList.getLength(), is(1));
+	}
 
-    @Test
-    public void testParseFeatureMemberNodes_gml()
-                            throws Exception {
-        BaseGetFeatureInfoFixture baseGetFeatureInfoFixture = new BaseGetFeatureInfoFixture();
-        Document documentEntity = parseDocument( "gfi-response_gml.xml" );
-        NodeList nodeList = baseGetFeatureInfoFixture.parseFeatureMemberNodes( documentEntity );
+	@Test
+	public void testParseFeatureMemberNodes_gml() throws Exception {
+		BaseGetFeatureInfoFixture baseGetFeatureInfoFixture = new BaseGetFeatureInfoFixture();
+		Document documentEntity = parseDocument("gfi-response_gml.xml");
+		NodeList nodeList = baseGetFeatureInfoFixture.parseFeatureMemberNodes(documentEntity);
 
-        assertThat( nodeList.getLength(), is( 2 ) );
-    }
+		assertThat(nodeList.getLength(), is(2));
+	}
 
-    @Test
-    public void testParseFeatureMemberNodes_gml32()
-                            throws Exception {
-        BaseGetFeatureInfoFixture baseGetFeatureInfoFixture = new BaseGetFeatureInfoFixture();
-        Document documentEntity = parseDocument( "gfi-response_gml32.xml" );
-        NodeList nodeList = baseGetFeatureInfoFixture.parseFeatureMemberNodes( documentEntity );
+	@Test
+	public void testParseFeatureMemberNodes_gml32() throws Exception {
+		BaseGetFeatureInfoFixture baseGetFeatureInfoFixture = new BaseGetFeatureInfoFixture();
+		Document documentEntity = parseDocument("gfi-response_gml32.xml");
+		NodeList nodeList = baseGetFeatureInfoFixture.parseFeatureMemberNodes(documentEntity);
 
-        assertThat( nodeList.getLength(), is( 2 ) );
-    }
+		assertThat(nodeList.getLength(), is(2));
+	}
 
-    private Document parseDocument( String resource )
-                            throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware( true );
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        InputStream wmsCapabilities = getClass().getResourceAsStream( resource );
-        return builder.parse( new InputSource( wmsCapabilities ) );
-    }
+	private Document parseDocument(String resource) throws ParserConfigurationException, SAXException, IOException {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true);
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		InputStream wmsCapabilities = getClass().getResourceAsStream(resource);
+		return builder.parse(new InputSource(wmsCapabilities));
+	}
+
 }

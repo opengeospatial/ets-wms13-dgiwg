@@ -26,46 +26,45 @@ import jakarta.xml.soap.SOAPException;
 
 /**
  * Tests if the request parameters for GetCapabilites requests are supported.
- * 
+ *
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>
  */
 public class GetCapabilitiesRequestParameterTest extends AbstractBaseGetCapabilitiesFixture {
 
-    private static final Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 
-    @BeforeMethod
-    public void clearRequest() {
-        this.reqEntity.removeKvp( FORMAT_PARAM );
-        this.reqEntity.removeKvp( UPDATE_SEQUENCE_PARAM );
-    }
+	@BeforeMethod
+	public void clearRequest() {
+		this.reqEntity.removeKvp(FORMAT_PARAM);
+		this.reqEntity.removeKvp(UPDATE_SEQUENCE_PARAM);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.1., S.12, Requirement 8")
-    public void wmsCapabilitiesOutputFormatParameterSupported()
-                    throws SOAPException {
-        List<String> supportedFormats = ServiceMetadataUtils.parseSupportedFormats( wmsCapabilities, GET_CAPABILITIES );
-        if ( supportedFormats.size() > 0 ) {
-            String format = retrieveRandomFormat( supportedFormats );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.6.1., S.12, Requirement 8")
+	public void wmsCapabilitiesOutputFormatParameterSupported() throws SOAPException {
+		List<String> supportedFormats = ServiceMetadataUtils.parseSupportedFormats(wmsCapabilities, GET_CAPABILITIES);
+		if (supportedFormats.size() > 0) {
+			String format = retrieveRandomFormat(supportedFormats);
 
-            this.reqEntity.addKvp( FORMAT_PARAM, format );
+			this.reqEntity.addKvp(FORMAT_PARAM, format);
 
-            URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
-                                                                      ProtocolBinding.GET );
-            Response rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+			URI endpoint = ServiceMetadataUtils.getOperationEndpoint(this.wmsCapabilities, GET_CAPABILITIES,
+					ProtocolBinding.GET);
+			Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-            assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-            assertContentType( rsp.getHeaders(), format );
+			assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+			assertContentType(rsp.getHeaders(), format);
 
-            if ( TEXT_XML.equals( format ) ) {
-                Document reqEntity = rsp.readEntity( Document.class );
-                assertSimpleWMSCapabilities( reqEntity );
-                assertVersion130( reqEntity );
-            }
-        }
-    }
+			if (TEXT_XML.equals(format)) {
+				Document reqEntity = rsp.readEntity(Document.class);
+				assertSimpleWMSCapabilities(reqEntity);
+				assertVersion130(reqEntity);
+			}
+		}
+	}
 
-    private String retrieveRandomFormat( List<String> supportedFormats ) {
-        int index = RANDOM.nextInt( supportedFormats.size() );
-        return supportedFormats.get( index );
-    }
+	private String retrieveRandomFormat(List<String> supportedFormats) {
+		int index = RANDOM.nextInt(supportedFormats.size());
+		return supportedFormats.get(index);
+	}
 
 }

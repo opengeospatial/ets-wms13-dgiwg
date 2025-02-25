@@ -50,9 +50,9 @@ public class Prerequisites {
 		assertNotNull(capabilities, "No GetCapabilities response from SUT.");
 		Element docElement = capabilities.getDocumentElement();
 		assertEquals(docElement.getLocalName(), DGIWGWMS.WMS_CAPABILITIES,
-				"Capabilities document element has unexpected [local name].");
+				"Capabilities document element has unexpected 'local name'.");
 		assertEquals(docElement.getNamespaceURI(), WmsNamespaces.WMS,
-				"Capabilities document element has unexpected [namespace name].");
+				"Capabilities document element has unexpected 'namespace name'.");
 	}
 
 }

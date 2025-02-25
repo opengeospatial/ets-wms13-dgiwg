@@ -77,9 +77,9 @@ public class GetMapMultiDimensionalDataTest extends BaseGetMapFixture {
 
 		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-		storeResponseImage(rsp, "Requirement27", "multiDimensionalData_elevation", requestFormat);
-
 		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+
+		storeResponseImage(rsp, "Requirement27", "multiDimensionalData_elevation", requestFormat);
 		assertStatusCode(rsp.getStatus(), 200);
 		assertContentType(rsp.getHeaders(), requestFormat);
 	}
@@ -106,9 +106,9 @@ public class GetMapMultiDimensionalDataTest extends BaseGetMapFixture {
 
 		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-		storeResponseImage(rsp, "Requirement27", "multiDimensionalData_time", requestFormat);
-
 		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+
+		storeResponseImage(rsp, "Requirement27", "multiDimensionalData_time", requestFormat);
 		assertStatusCode(rsp.getStatus(), 200);
 		assertContentType(rsp.getHeaders(), requestFormat);
 	}

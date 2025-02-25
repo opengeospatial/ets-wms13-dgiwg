@@ -56,7 +56,7 @@ public class WmsClient {
 		config.property(ClientProperties.FOLLOW_REDIRECTS, true);
 		config.property(ClientProperties.CONNECT_TIMEOUT, 10000);
 		config.register(new LoggingFeature(LOGR, Level.ALL, LoggingFeature.Verbosity.PAYLOAD_ANY, 5000));
-		config.getClasses().add(SOAPMessageConsumer.class);
+		config.register(SOAPMessageConsumer.class);
 		this.client = ClientBuilder.newClient(config);
 		this.wmsCapabilities = wmsCapabilities;
 	}
@@ -82,7 +82,7 @@ public class WmsClient {
 		UriBuilder uriBuilder = UriBuilder.fromUri(endpoint);
 		if (null != queryParams) {
 			for (Entry<String, List<String>> param : queryParams.entrySet()) {
-				uriBuilder.queryParam(param.getKey(), param.getValue());
+				uriBuilder.queryParam(param.getKey(), param.getValue().get(0));
 			}
 		}
 		URI uri = uriBuilder.build();

@@ -39,9 +39,9 @@ public class GetMapRequestParametersTest extends BaseGetMapFixture {
 		this.reqEntity.addKvp(FORMAT_PARAM, requestFormat);
 		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-		storeResponseImage(rsp, "Requirement23", "simple", requestFormat);
-
 		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+
+		storeResponseImage(rsp, "Requirement23", "simple", requestFormat);
 		assertStatusCode(rsp.getStatus(), 200);
 		assertContentType(rsp.getHeaders(), requestFormat);
 	}

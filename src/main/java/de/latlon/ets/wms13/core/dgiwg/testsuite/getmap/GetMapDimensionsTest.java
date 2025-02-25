@@ -76,9 +76,9 @@ public class GetMapDimensionsTest extends BaseGetMapFixture {
 
 		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-		storeResponseImage(rsp, "Requirement28", "dimensions", requestFormat);
-
 		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+
+		storeResponseImage(rsp, "Requirement28", "dimensions", requestFormat);
 		assertStatusCode(rsp.getStatus(), 200);
 		assertContentType(rsp.getHeaders(), requestFormat);
 	}

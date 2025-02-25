@@ -67,9 +67,9 @@ public class GetMapLayerCrsTest extends BaseGetMapFixture {
 		URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
 		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-		storeResponseImage(rsp, "Requirement6", "Mandatory_CRS_84_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
-
 		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+
+		storeResponseImage(rsp, "Requirement6", "Mandatory_CRS_84_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
 		assertStatusCode(rsp.getStatus(), 200);
 		assertContentType(rsp.getHeaders(), REQUEST_FORMAT);
 	}
@@ -89,9 +89,9 @@ public class GetMapLayerCrsTest extends BaseGetMapFixture {
 		URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
 		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-		storeResponseImage(rsp, "Requirement6", "Mandatory_EPSG_4326_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
-
 		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+
+		storeResponseImage(rsp, "Requirement6", "Mandatory_EPSG_4326_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
 		assertStatusCode(rsp.getStatus(), 200);
 		assertContentType(rsp.getHeaders(), REQUEST_FORMAT);
 	}
@@ -111,9 +111,9 @@ public class GetMapLayerCrsTest extends BaseGetMapFixture {
 		URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
 		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-		storeResponseImage(rsp, "Requirement6", "Mandatory_EPSG_3395_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
-
 		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+
+		storeResponseImage(rsp, "Requirement6", "Mandatory_EPSG_3395_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
 		assertStatusCode(rsp.getStatus(), 200);
 		assertContentType(rsp.getHeaders(), REQUEST_FORMAT);
 	}
@@ -135,10 +135,10 @@ public class GetMapLayerCrsTest extends BaseGetMapFixture {
 			URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
 			Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
+			assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+
 			storeResponseImage(rsp, "Requirement6",
 					"Conditional_" + crs.replace(":", "_") + "_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
-
-			assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
 			assertStatusCode(rsp.getStatus(), 200);
 			assertContentType(rsp.getHeaders(), REQUEST_FORMAT);
 		}

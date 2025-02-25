@@ -51,9 +51,9 @@ public class GetMapInImageExceptionsTest extends BaseGetMapFixture {
 
 		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-		storeResponseImage(rsp, "Requirement25", "inImageExceptionExpected_transparentBackground", requestFormat);
-
 		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+
+		storeResponseImage(rsp, "Requirement25", "inImageExceptionExpected_transparentBackground", requestFormat);
 		assertStatusCode(rsp.getStatus(), 200);
 		assertContentType(rsp.getHeaders(), requestFormat);
 	}

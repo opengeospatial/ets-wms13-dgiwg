@@ -80,8 +80,8 @@ public class GetFeatureInfoUomTest extends BaseGetFeatureInfoFixture {
 		reqEntity.addKvp(QUERY_LAYERS_PARAM, layerName);
 
 		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
-		this.rspEntity = rsp.readEntity(Document.class);
 		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+		this.rspEntity = rsp.readEntity(Document.class);
 		NodeList featureMemberNodes = parseFeatureMembers(layerName);
 
 		assertResponseContainsUnitOfMeasure(layerInfoWithDimension, featureMemberNodes);

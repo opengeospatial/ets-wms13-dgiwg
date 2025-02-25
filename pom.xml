@@ -147,6 +147,14 @@
       <groupId>org.glassfish.metro</groupId>
       <artifactId>webservices-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-jaxb</artifactId>
+    </dependency>
   </dependencies>
 
   <profiles>

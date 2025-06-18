@@ -11,74 +11,69 @@ import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
 
-import javax.xml.soap.SOAPException;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
-
-import com.sun.jersey.api.client.ClientResponse;
 
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.domain.ProtocolBinding;
 import de.latlon.ets.wms13.core.util.ServiceMetadataUtils;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.soap.SOAPException;
 
 /**
- * Tests if the expected formats for GetCapabilites requests (text/xml and text/html) are supported.
- * 
+ * Tests if the expected formats for GetCapabilites requests (text/xml and text/html) are
+ * supported.
+ *
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>
  */
 public class GetCapabilitiesOutputFormatTest extends AbstractBaseGetCapabilitiesFixture {
 
-    @BeforeMethod
-    public void clearRequest() {
-        this.reqEntity.removeKvp( FORMAT_PARAM );
-    }
+	@BeforeMethod
+	public void clearRequest() {
+		this.reqEntity.removeKvp(FORMAT_PARAM);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.3.1., S.9, Requirement 3")
-    public void wmsCapabilitiesOutputFormatXmlSupported()
-                    throws SOAPException {
-        String xPathXml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetCapabilities/wms:Format/text() = 'text/xml'";
-        assertXPath( xPathXml, wmsCapabilities, NS_BINDINGS );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.3.1., S.9, Requirement 3")
+	public void wmsCapabilitiesOutputFormatXmlSupported() throws SOAPException {
+		String xPathXml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetCapabilities/wms:Format/text() = 'text/xml'";
+		assertXPath(xPathXml, wmsCapabilities, NS_BINDINGS);
 
-    }
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.3.1., S.9, Requirement 3")
-    public void wmsCapabilitiesOutputFormatHtmlSupported()
-                    throws SOAPException {
-        String xPathHtml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetCapabilities/wms:Format/text() = 'text/html'";
-        assertXPath( xPathHtml, wmsCapabilities, NS_BINDINGS );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.3.1., S.9, Requirement 3")
+	public void wmsCapabilitiesOutputFormatHtmlSupported() throws SOAPException {
+		String xPathHtml = "//wms:WMS_Capabilities/wms:Capability/wms:Request/wms:GetCapabilities/wms:Format/text() = 'text/html'";
+		assertXPath(xPathHtml, wmsCapabilities, NS_BINDINGS);
 
-    }
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.3.1., S.9, Requirement 3", dependsOnMethods = "wmsCapabilitiesOutputFormatXmlSupported")
-    public
-                    void wmsGetCapabilitiesOutputFormatXmlSupported()
-                                    throws SOAPException {
-        URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
-                                                                  ProtocolBinding.GET );
-        this.reqEntity.addKvp( FORMAT_PARAM, TEXT_XML );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.3.1., S.9, Requirement 3",
+			dependsOnMethods = "wmsCapabilitiesOutputFormatXmlSupported")
+	public void wmsGetCapabilitiesOutputFormatXmlSupported() throws SOAPException {
+		URI endpoint = ServiceMetadataUtils.getOperationEndpoint(this.wmsCapabilities, GET_CAPABILITIES,
+				ProtocolBinding.GET);
+		this.reqEntity.addKvp(FORMAT_PARAM, TEXT_XML);
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertSimpleWMSCapabilities( rsp.getEntity( Document.class ) );
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
+		assertSimpleWMSCapabilities(rsp.readEntity(Document.class));
 
-        assertContentType( rsp.getHeaders(), TEXT_XML );
-    }
+		assertContentType(rsp.getHeaders(), TEXT_XML);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.3.1., S.9, Requirement 3", dependsOnMethods = "wmsCapabilitiesOutputFormatHtmlSupported")
-    public
-                    void wmsGetCapabilitiesOutputFormatHtmlSupported()
-                                    throws SOAPException {
-        URI endpoint = ServiceMetadataUtils.getOperationEndpoint( this.wmsCapabilities, GET_CAPABILITIES,
-                                                                  ProtocolBinding.GET );
-        this.reqEntity.addKvp( FORMAT_PARAM, TEXT_HTML );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.3.1., S.9, Requirement 3",
+			dependsOnMethods = "wmsCapabilitiesOutputFormatHtmlSupported")
+	public void wmsGetCapabilitiesOutputFormatHtmlSupported() throws SOAPException {
+		URI endpoint = ServiceMetadataUtils.getOperationEndpoint(this.wmsCapabilities, GET_CAPABILITIES,
+				ProtocolBinding.GET);
+		this.reqEntity.addKvp(FORMAT_PARAM, TEXT_HTML);
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
 
-        assertContentType( rsp.getHeaders(), TEXT_HTML );
-    }
+		assertContentType(rsp.getHeaders(), TEXT_HTML);
+	}
 
 }

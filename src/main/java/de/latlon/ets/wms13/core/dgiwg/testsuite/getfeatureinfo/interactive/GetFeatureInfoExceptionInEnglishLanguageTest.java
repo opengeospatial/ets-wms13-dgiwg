@@ -14,24 +14,25 @@ import de.latlon.ets.wms13.core.domain.SuiteAttribute;
 
 /**
  * Checks the result of the interactive test for the language of the metadata content.
- * 
+ *
  * @author <a href="mailto:goltz@lat-lon.de">Lyn Goltz</a>
  */
 public class GetFeatureInfoExceptionInEnglishLanguageTest {
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.5.2., S.12, Requirement 7")
-    public void getFeatureInfoExceptionInEnglishLanguage( ITestContext context )
-                    throws XPathExpressionException, XPathFactoryConfigurationException {
-        if ( context == null )
-            throw new SkipException( "Context is null!" );
-        Object attribute = context.getSuite().getAttribute( SuiteAttribute.INTERACTIVE_TEST_RESULT.getName() );
-        if ( attribute == null )
-            throw new SkipException( "Missing testresult!" );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.5.2., S.12, Requirement 7")
+	public void getFeatureInfoExceptionInEnglishLanguage(ITestContext context)
+			throws XPathExpressionException, XPathFactoryConfigurationException {
+		if (context == null)
+			throw new SkipException("Context is null!");
+		Object attribute = context.getSuite().getAttribute(SuiteAttribute.INTERACTIVE_TEST_RESULT.getName());
+		if (attribute == null)
+			throw new SkipException("Missing testresult!");
 
-        InteractiveTestResult interactiveTestResult = (InteractiveTestResult) attribute;
-        boolean getFeatureInfoExceptopmResponseInEnglishLanguage = interactiveTestResult.isGetFeatureInfoExceptionInEnglishLanguage();
-        assertTrue( getFeatureInfoExceptopmResponseInEnglishLanguage,
-                    "Content of the GetFeatureInfo exception is not in English language." );
-    }
+		InteractiveTestResult interactiveTestResult = (InteractiveTestResult) attribute;
+		boolean getFeatureInfoExceptopmResponseInEnglishLanguage = interactiveTestResult
+			.isGetFeatureInfoExceptionInEnglishLanguage();
+		assertTrue(getFeatureInfoExceptopmResponseInEnglishLanguage,
+				"Content of the GetFeatureInfo exception is not in English language.");
+	}
 
 }

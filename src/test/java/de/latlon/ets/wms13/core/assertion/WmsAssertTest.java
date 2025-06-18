@@ -23,22 +23,20 @@ import de.latlon.ets.wms13.core.util.ServiceMetadataUtilsTest;
  */
 public class WmsAssertTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 
-    @Test
-    public void testAssertVersion130()
-                    throws Exception {
-        assertVersion130( wmsCapabilities() );
-    }
+	@Test
+	public void testAssertVersion130() throws Exception {
+		assertVersion130(wmsCapabilities());
+	}
 
-    private Document wmsCapabilities()
-                    throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware( true );
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        InputStream wmsCapabilities = ServiceMetadataUtilsTest.class.getResourceAsStream( "../capabilities_wms130.xml" );
-        return builder.parse( new InputSource( wmsCapabilities ) );
-    }
+	private Document wmsCapabilities() throws ParserConfigurationException, SAXException, IOException {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true);
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		InputStream wmsCapabilities = ServiceMetadataUtilsTest.class.getResourceAsStream("../capabilities_wms130.xml");
+		return builder.parse(new InputSource(wmsCapabilities));
+	}
 
 }

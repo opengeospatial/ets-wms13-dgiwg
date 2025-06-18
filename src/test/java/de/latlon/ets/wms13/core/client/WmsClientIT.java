@@ -19,22 +19,20 @@ import de.latlon.ets.wms13.core.domain.WmsNamespaces;
  */
 public class WmsClientIT {
 
-    public void testgetCapabilities()
-                    throws Exception {
-        WmsClient wmsClient = new WmsClient( wmsCapabilities() );
+	public void testgetCapabilities() throws Exception {
+		WmsClient wmsClient = new WmsClient(wmsCapabilities());
 
-        Document capabilities = wmsClient.getCapabilities();
-        assertThat( capabilities.getLocalName(), is( DGIWGWMS.WMS_CAPABILITIES ) );
-        assertThat( capabilities.getNamespaceURI(), is( WmsNamespaces.WMS ) );
-    }
+		Document capabilities = wmsClient.getCapabilities();
+		assertThat(capabilities.getLocalName(), is(DGIWGWMS.WMS_CAPABILITIES));
+		assertThat(capabilities.getNamespaceURI(), is(WmsNamespaces.WMS));
+	}
 
-    private Document wmsCapabilities()
-                    throws Exception {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware( true );
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        InputStream wmsCapabilities = WmsClientIT.class.getResourceAsStream( "capabilities_wms130.xml" );
-        return builder.parse( new InputSource( wmsCapabilities ) );
-    }
+	private Document wmsCapabilities() throws Exception {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true);
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		InputStream wmsCapabilities = WmsClientIT.class.getResourceAsStream("capabilities_wms130.xml");
+		return builder.parse(new InputSource(wmsCapabilities));
+	}
 
 }

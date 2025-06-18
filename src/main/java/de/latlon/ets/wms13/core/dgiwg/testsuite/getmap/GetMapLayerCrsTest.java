@@ -23,135 +23,134 @@ import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.sun.jersey.api.client.ClientResponse;
-
 import de.latlon.ets.core.error.ErrorMessage;
 import de.latlon.ets.core.error.ErrorMessageKey;
 import de.latlon.ets.wms13.core.crs.CrsMatcher;
 import de.latlon.ets.wms13.core.domain.BoundingBox;
 import de.latlon.ets.wms13.core.domain.LayerInfo;
+import jakarta.ws.rs.core.Response;
 
 /**
  * Tests if the Layer is requestable with the required CRS.
- * 
+ *
  * @author <a href="mailto:stenger@lat-lon.de">Dirk Stenger</a>
  */
 public class GetMapLayerCrsTest extends BaseGetMapFixture {
 
-    private static final CrsMatcher CRS_MATCHER = new CrsMatcher();
+	private static final CrsMatcher CRS_MATCHER = new CrsMatcher();
 
-    private static final String REQUEST_FORMAT = IMAGE_PNG;
+	private static final String REQUEST_FORMAT = IMAGE_PNG;
 
-    @DataProvider(name = "layerNodes")
-    public Object[][] parseLayerNodes( ITestContext testContext )
-                    throws XPathFactoryConfigurationException, XPathExpressionException {
-        Object[][] layers = new Object[layerInfo.size()][];
-        for ( int layerIndex = 0; layerIndex < layerInfo.size(); layerIndex++ ) {
-            LayerInfo layer = layerInfo.get( layerIndex );
-            layers[layerIndex] = new Object[] { layer };
-        }
-        return layers;
-    }
+	@DataProvider(name = "layerNodes")
+	public Object[][] parseLayerNodes(ITestContext testContext)
+			throws XPathFactoryConfigurationException, XPathExpressionException {
+		Object[][] layers = new Object[layerInfo.size()][];
+		for (int layerIndex = 0; layerIndex < layerInfo.size(); layerIndex++) {
+			LayerInfo layer = layerInfo.get(layerIndex);
+			layers[layerIndex] = new Object[] { layer };
+		}
+		return layers;
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.4.2., S.11, Requirement 6", dataProvider = "layerNodes")
-    public
-                    void wmsGetMapLayerCrs_Mandatory_CRS_84_Supported( LayerInfo layer ) {
-        String crs = "CRS:84";
-        String bbox = findBboxOrSkipTestIfCrsIsNotSupported( layer, crs );
-        String layerName = layer.getLayerName();
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.4.2., S.11, Requirement 6",
+			dataProvider = "layerNodes")
+	public void wmsGetMapLayerCrs_Mandatory_CRS_84_Supported(LayerInfo layer) {
+		String crs = "CRS:84";
+		String bbox = findBboxOrSkipTestIfCrsIsNotSupported(layer, crs);
+		String layerName = layer.getLayerName();
 
-        this.reqEntity.addKvp( LAYERS_PARAM, layerName );
-        this.reqEntity.addKvp( CRS_PARAM, crs );
-        this.reqEntity.addKvp( BBOX_PARAM, bbox );
-        this.reqEntity.addKvp( FORMAT_PARAM, REQUEST_FORMAT );
+		this.reqEntity.addKvp(LAYERS_PARAM, layerName);
+		this.reqEntity.addKvp(CRS_PARAM, crs);
+		this.reqEntity.addKvp(BBOX_PARAM, bbox);
+		this.reqEntity.addKvp(FORMAT_PARAM, REQUEST_FORMAT);
 
-        URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+		URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        storeResponseImage( rsp, "Requirement6", "Mandatory_CRS_84_Supported_By_Layer_" + layerName, REQUEST_FORMAT );
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertStatusCode( rsp.getStatus(), 200 );
-        assertContentType( rsp.getHeaders(), REQUEST_FORMAT );
-    }
+		storeResponseImage(rsp, "Requirement6", "Mandatory_CRS_84_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
+		assertStatusCode(rsp.getStatus(), 200);
+		assertContentType(rsp.getHeaders(), REQUEST_FORMAT);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.4.2., S.11, Requirement 6", dataProvider = "layerNodes")
-    public
-                    void wmsGetMapLayerCrs_Mandatory_EPSG_4326_Supported( LayerInfo layer ) {
-        String crs = "EPSG:4326";
-        String bbox = findBboxOrSkipTestIfCrsIsNotSupported( layer, crs );
-        String layerName = layer.getLayerName();
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.4.2., S.11, Requirement 6",
+			dataProvider = "layerNodes")
+	public void wmsGetMapLayerCrs_Mandatory_EPSG_4326_Supported(LayerInfo layer) {
+		String crs = "EPSG:4326";
+		String bbox = findBboxOrSkipTestIfCrsIsNotSupported(layer, crs);
+		String layerName = layer.getLayerName();
 
-        this.reqEntity.addKvp( LAYERS_PARAM, layerName );
-        this.reqEntity.addKvp( CRS_PARAM, crs );
-        this.reqEntity.addKvp( BBOX_PARAM, bbox );
-        this.reqEntity.addKvp( FORMAT_PARAM, REQUEST_FORMAT );
+		this.reqEntity.addKvp(LAYERS_PARAM, layerName);
+		this.reqEntity.addKvp(CRS_PARAM, crs);
+		this.reqEntity.addKvp(BBOX_PARAM, bbox);
+		this.reqEntity.addKvp(FORMAT_PARAM, REQUEST_FORMAT);
 
-        URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+		URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        storeResponseImage( rsp, "Requirement6", "Mandatory_EPSG_4326_Supported_By_Layer_" + layerName, REQUEST_FORMAT );
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertStatusCode( rsp.getStatus(), 200 );
-        assertContentType( rsp.getHeaders(), REQUEST_FORMAT );
-    }
+		storeResponseImage(rsp, "Requirement6", "Mandatory_EPSG_4326_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
+		assertStatusCode(rsp.getStatus(), 200);
+		assertContentType(rsp.getHeaders(), REQUEST_FORMAT);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.4.2., S.11, Requirement 6", dataProvider = "layerNodes")
-    public
-                    void wmsGetMapLayerCrs_Mandatory_EPSG_3395_Supported( LayerInfo layer ) {
-        String crs = "EPSG:3395";
-        String bbox = findBboxOrSkipTestIfCrsIsNotSupported( layer, crs );
-        String layerName = layer.getLayerName();
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.4.2., S.11, Requirement 6",
+			dataProvider = "layerNodes")
+	public void wmsGetMapLayerCrs_Mandatory_EPSG_3395_Supported(LayerInfo layer) {
+		String crs = "EPSG:3395";
+		String bbox = findBboxOrSkipTestIfCrsIsNotSupported(layer, crs);
+		String layerName = layer.getLayerName();
 
-        this.reqEntity.addKvp( LAYERS_PARAM, layerName );
-        this.reqEntity.addKvp( CRS_PARAM, crs );
-        this.reqEntity.addKvp( BBOX_PARAM, bbox );
-        this.reqEntity.addKvp( FORMAT_PARAM, REQUEST_FORMAT );
+		this.reqEntity.addKvp(LAYERS_PARAM, layerName);
+		this.reqEntity.addKvp(CRS_PARAM, crs);
+		this.reqEntity.addKvp(BBOX_PARAM, bbox);
+		this.reqEntity.addKvp(FORMAT_PARAM, REQUEST_FORMAT);
 
-        URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
-        ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+		URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
+		Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-        storeResponseImage( rsp, "Requirement6", "Mandatory_EPSG_3395_Supported_By_Layer_" + layerName, REQUEST_FORMAT );
+		assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
 
-        assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-        assertStatusCode( rsp.getStatus(), 200 );
-        assertContentType( rsp.getHeaders(), REQUEST_FORMAT );
-    }
+		storeResponseImage(rsp, "Requirement6", "Mandatory_EPSG_3395_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
+		assertStatusCode(rsp.getStatus(), 200);
+		assertContentType(rsp.getHeaders(), REQUEST_FORMAT);
+	}
 
-    @Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.4.2., S.11, Requirement 6", dataProvider = "layerNodes")
-    public
-                    void wmsGetMapLayerCrs_Conditional_Supported( LayerInfo layer ) {
-        List<String> conditionalExpectedCrs = CRS_MATCHER.retrieveOverlappingCrs( layer.getGeographicBbox() );
+	@Test(description = "DGIWG - Web Map Service 1.3 Profile, 6.5.4.2., S.11, Requirement 6",
+			dataProvider = "layerNodes")
+	public void wmsGetMapLayerCrs_Conditional_Supported(LayerInfo layer) {
+		List<String> conditionalExpectedCrs = CRS_MATCHER.retrieveOverlappingCrs(layer.getGeographicBbox());
 
-        for ( String crs : conditionalExpectedCrs ) {
-            String bbox = findBboxOrSkipTestIfCrsIsNotSupported( layer, crs );
-            String layerName = layer.getLayerName();
+		for (String crs : conditionalExpectedCrs) {
+			String bbox = findBboxOrSkipTestIfCrsIsNotSupported(layer, crs);
+			String layerName = layer.getLayerName();
 
-            this.reqEntity.addKvp( LAYERS_PARAM, layerName );
-            this.reqEntity.addKvp( CRS_PARAM, crs );
-            this.reqEntity.addKvp( BBOX_PARAM, bbox );
-            this.reqEntity.addKvp( FORMAT_PARAM, REQUEST_FORMAT );
+			this.reqEntity.addKvp(LAYERS_PARAM, layerName);
+			this.reqEntity.addKvp(CRS_PARAM, crs);
+			this.reqEntity.addKvp(BBOX_PARAM, bbox);
+			this.reqEntity.addKvp(FORMAT_PARAM, REQUEST_FORMAT);
 
-            URI endpoint = getOperationEndpoint( this.wmsCapabilities, GET_MAP, GET );
-            ClientResponse rsp = wmsClient.submitRequest( this.reqEntity, endpoint );
+			URI endpoint = getOperationEndpoint(this.wmsCapabilities, GET_MAP, GET);
+			Response rsp = wmsClient.submitRequest(this.reqEntity, endpoint);
 
-            storeResponseImage( rsp, "Requirement6", "Conditional_" + crs.replace( ":", "_" ) + "_Supported_By_Layer_"
-                                                     + layerName, REQUEST_FORMAT );
+			assertTrue(rsp.hasEntity(), ErrorMessage.get(ErrorMessageKey.MISSING_XML_ENTITY));
 
-            assertTrue( rsp.hasEntity(), ErrorMessage.get( ErrorMessageKey.MISSING_XML_ENTITY ) );
-            assertStatusCode( rsp.getStatus(), 200 );
-            assertContentType( rsp.getHeaders(), REQUEST_FORMAT );
-        }
-    }
+			storeResponseImage(rsp, "Requirement6",
+					"Conditional_" + crs.replace(":", "_") + "_Supported_By_Layer_" + layerName, REQUEST_FORMAT);
+			assertStatusCode(rsp.getStatus(), 200);
+			assertContentType(rsp.getHeaders(), REQUEST_FORMAT);
+		}
+	}
 
-    private String findBboxOrSkipTestIfCrsIsNotSupported( LayerInfo layer, String crs ) {
-        for ( BoundingBox bbox : layer.getBboxes() ) {
-            if ( crs.equals( bbox.getCrs() ) )
-                return bbox.getBboxAsString();
-        }
-        throw new SkipException( "Layer " + layer.getLayerName() + " does not support CRS " + crs
-                                 + ", tests are skipped!" );
-    }
+	private String findBboxOrSkipTestIfCrsIsNotSupported(LayerInfo layer, String crs) {
+		for (BoundingBox bbox : layer.getBboxes()) {
+			if (crs.equals(bbox.getCrs()))
+				return bbox.getBboxAsString();
+		}
+		throw new SkipException(
+				"Layer " + layer.getLayerName() + " does not support CRS " + crs + ", tests are skipped!");
+	}
 
 }

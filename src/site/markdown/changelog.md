@@ -1,6 +1,11 @@
 
 # Release Notes
 
+## 0.6 (2025-06-18)
+- [#26](https://github.com/opengeospatial/ets-wms13-dgiwg/issues/26) - Migrate test suite to TEAM Engine 6 (Java 17)
+- [#23](https://github.com/opengeospatial/ets-wms13-dgiwg/issues/23) - Publication to Central Maven Repository failed
+- [#28](https://github.com/opengeospatial/ets-wms13-dgiwg/pull/28) - Fix link to release notes
+
 ## 0.5 (2022-08-19)
 - [#22](https://github.com/opengeospatial/ets-wms13-dgiwg/pull/22) - Set ets-dgiwg-core to v0.5
 - [#11](https://github.com/opengeospatial/ets-wms13-dgiwg/issues/11) - Enhance test to count the features from the ESRI response format.
